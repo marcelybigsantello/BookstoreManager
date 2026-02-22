@@ -18,7 +18,13 @@
         <license/>
     </licenses>
     <developers>
-        <developer/>
+        <developer>
+            <name>Marcely Santello</name>
+            <timezone>(UTC−03:00) Brazil</timezone>
+            <roles>
+                <role>Backend Software Engineer</role>
+            </roles>
+        </developer>
     </developers>
     <scm>
         <connection/>
