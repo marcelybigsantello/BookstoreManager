@@ -1,4 +1,4 @@
-package com.masantello.bookstoremanager.controller;
+package com.masantello.bookstoremanager.controllers;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;

@@ -21,19 +21,19 @@ public enum LiteraryGenre {
     private final int code;
     private final String description;
 
-    public static LiteraryGenre findByCode(int code) {
+    public static LiteraryGenre findByDescription(String description) {
         for (LiteraryGenre gender : LiteraryGenre.values()) {
-            if (gender.getCode() == code) {
+            if (gender.getDescription().equalsIgnoreCase(description)) {
                 return gender;
             }
         }
         return null;
     }
 
-    public static LiteraryGenre findByDescription(String description) {
-        for (LiteraryGenre gender : LiteraryGenre.values()) {
-            if (gender.getDescription().equalsIgnoreCase(description)) {
-                return gender;
+    public static String convertToDescription(LiteraryGenre literaryGenre) {
+        for (LiteraryGenre genre : LiteraryGenre.values()) {
+            if (literaryGenre.getDescription().equalsIgnoreCase(genre.getDescription())){
+                return genre.getDescription();
             }
         }
         return null;

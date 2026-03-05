@@ -1,4 +1,4 @@
-package com.masantello.bookstoremanager.exception;
+package com.masantello.bookstoremanager.exceptions;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;

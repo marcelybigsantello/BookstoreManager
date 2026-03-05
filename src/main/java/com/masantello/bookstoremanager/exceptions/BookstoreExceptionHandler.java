@@ -1,4 +1,4 @@
-package com.masantello.bookstoremanager.exception;
+package com.masantello.bookstoremanager.exceptions;
 
 import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
