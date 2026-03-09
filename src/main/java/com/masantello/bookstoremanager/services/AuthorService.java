@@ -53,7 +53,7 @@ public class AuthorService {
         return authorMapper.convertToDto(author.get());
     }
 
-    public void updateByName(AuthorDto authorDto) {
+    public AuthorDto updateByName(AuthorDto authorDto) {
         Author newAuthorData = authorMapper.convertToModel(findByName(authorDto.getName()));
 
         newAuthorData.setName(authorDto.getName());
@@ -64,16 +64,7 @@ public class AuthorService {
 
         authorRepository.save(newAuthorData);
         logger.info("Author {} updated successfully.", authorDto.getName());
-    }
-
-    private Author findById(Long id) {
-        var author = authorRepository.findById(id);
-        if (author.isEmpty()) {
-            logger.error("Author Id={} does not exist on database.", id);
-            throw new EntityNotFoundException("Author does not exist on database");
-        }
-
-        return author.get();
+        return authorMapper.convertToDto(newAuthorData);
     }
 
     public void delete(String authorName) {
