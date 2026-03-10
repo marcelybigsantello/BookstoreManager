@@ -2,6 +2,7 @@ package com.masantello.bookstoremanager.controllers;
 
 import com.masantello.bookstoremanager.dtos.AuthorDto;
 import com.masantello.bookstoremanager.services.AuthorService;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -11,14 +12,14 @@ import java.util.List;
 
 @RestController
 @RequestMapping(value = "/api/v1/authors")
-public class AuthorControllerImpl implements AuthorControllerDocs, AuthorController {
+public class AuthorControllerImpl implements AuthorController {
 
     private final AuthorService authorService;
 
     public AuthorControllerImpl(AuthorService authorService) { this.authorService = authorService; }
 
     @PostMapping
-    public ResponseEntity<AuthorDto> create(@RequestBody AuthorDto authorDto) {
+    public ResponseEntity<AuthorDto> create(@RequestBody @Valid AuthorDto authorDto) {
         var author = authorService.create(authorDto);
 
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(author.getId()).toUri();
@@ -40,7 +41,7 @@ public class AuthorControllerImpl implements AuthorControllerDocs, AuthorControl
     }
 
     @PutMapping(value = "/{authorName}")
-    public ResponseEntity<AuthorDto> update(@PathVariable String authorName, @RequestBody AuthorDto authorDto) {
+    public ResponseEntity<AuthorDto> update(@PathVariable String authorName, @RequestBody @Valid AuthorDto authorDto) {
         authorDto = authorService.updateByName(authorDto);
 
         return ResponseEntity.ok().body(authorDto);
