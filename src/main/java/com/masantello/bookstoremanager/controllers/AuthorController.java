@@ -25,5 +25,5 @@ public interface AuthorController {
     ResponseEntity<AuthorDto> update(@PathVariable Long authorId, @RequestBody AuthorDto authorDto);
 
     @ApiOperation(value = "Delete author operation")
-    ResponseEntity<Void> delete(@PathVariable String authorName);
+    ResponseEntity<Void> delete(@PathVariable Long authorId);
 }

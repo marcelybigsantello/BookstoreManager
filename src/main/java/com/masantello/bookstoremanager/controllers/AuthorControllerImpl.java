@@ -42,14 +42,15 @@ public class AuthorControllerImpl implements AuthorController {
 
     @PutMapping(value = "/{authorId}")
     public ResponseEntity<AuthorDto> update(@PathVariable Long authorId, @RequestBody @Valid AuthorDto authorDto) {
+        authorDto.setId(authorId);
         authorDto = authorService.updateById(authorDto);
 
         return ResponseEntity.ok().body(authorDto);
     }
 
-    @DeleteMapping(value = "/{authorName}")
-    public ResponseEntity<Void> delete(@PathVariable String authorName) {
-        authorService.delete(authorName);
+    @DeleteMapping(value = "/{authorId}")
+    public ResponseEntity<Void> delete(@PathVariable Long authorId) {
+        authorService.delete(authorId);
 
         return ResponseEntity.noContent().build();
     }

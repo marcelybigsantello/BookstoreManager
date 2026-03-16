@@ -44,7 +44,7 @@ public class AuthorService {
 
     public AuthorDto findByName(String authorName) {
 
-        var author = authorRepository.findByNameContaining(authorName);
+        var author = authorRepository.findByNameContainingIgnoreCase(authorName);
         if (author.isEmpty()) {
             logger.error("Author {} does not exist in database. You should try another one.", authorName);
             throw new EntityNotFoundException("Author " +authorName+ " was not found in database.");
@@ -54,21 +54,20 @@ public class AuthorService {
         return authorMapper.convertToDto(author.get());
     }
 
-    public AuthorDto findById(AuthorDto authorDto) {
-        Optional<Author> author = authorRepository.findById(authorDto.getId());
+    public AuthorDto findById(Long id) {
+        Optional<Author> author = authorRepository.findById(id);
 
         if (author.isEmpty()) {
-            logger.error("Author ID {}, Name {} does not exist in database. You should try another one.",
-                    authorDto.getId(), authorDto.getName());
-            throw new EntityNotFoundException("Author " +authorDto.getName()+ " was not found in database.");
+            logger.error("Author ID {} does not exist in database. You should try another one.", id);
+            throw new EntityNotFoundException("Author ID " +id+ " was not found in database.");
         }
 
-        logger.info("Author ID {} found in database", authorDto.getId());
+        logger.info("Author ID {} found in database", id);
         return authorMapper.convertToDto(author.get());
     }
 
     public AuthorDto updateById(AuthorDto authorDto) {
-        Author newAuthorData = authorMapper.convertToModel(findById(authorDto));
+        Author newAuthorData = authorMapper.convertToModel(findById(authorDto.getId()));
 
         newAuthorData.setName(authorDto.getName());
         newAuthorData.setEmail(authorDto.getEmail());
@@ -81,11 +80,11 @@ public class AuthorService {
         return authorMapper.convertToDto(newAuthorData);
     }
 
-    public void delete(String authorName) {
-        var authorDto = findByName(authorName);
+    public void delete(Long authorId) {
+        var authorDto = findById(authorId);
 
         if (authorDto.getBooks() != null && !authorDto.getBooks().isEmpty()) {
-            throw new DataIntegrityViolationException("Author " +authorName+ " has some books registered. "
+            throw new DataIntegrityViolationException("Author " +authorDto.getName()+ " has some books registered. "
                     + "It is not possible to delete it.");
         }
 
