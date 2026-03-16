@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -53,8 +54,21 @@ public class AuthorService {
         return authorMapper.convertToDto(author.get());
     }
 
-    public AuthorDto updateByName(AuthorDto authorDto) {
-        Author newAuthorData = authorMapper.convertToModel(findByName(authorDto.getName()));
+    public AuthorDto findById(AuthorDto authorDto) {
+        Optional<Author> author = authorRepository.findById(authorDto.getId());
+
+        if (author.isEmpty()) {
+            logger.error("Author ID {}, Name {} does not exist in database. You should try another one.",
+                    authorDto.getId(), authorDto.getName());
+            throw new EntityNotFoundException("Author " +authorDto.getName()+ " was not found in database.");
+        }
+
+        logger.info("Author ID {} found in database", authorDto.getId());
+        return authorMapper.convertToDto(author.get());
+    }
+
+    public AuthorDto updateById(AuthorDto authorDto) {
+        Author newAuthorData = authorMapper.convertToModel(findById(authorDto));
 
         newAuthorData.setName(authorDto.getName());
         newAuthorData.setEmail(authorDto.getEmail());

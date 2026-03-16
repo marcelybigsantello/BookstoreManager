@@ -40,9 +40,9 @@ public class AuthorControllerImpl implements AuthorController {
         return ResponseEntity.ok().body(authorDto);
     }
 
-    @PutMapping(value = "/{authorName}")
-    public ResponseEntity<AuthorDto> update(@PathVariable String authorName, @RequestBody @Valid AuthorDto authorDto) {
-        authorDto = authorService.updateByName(authorDto);
+    @PutMapping(value = "/{authorId}")
+    public ResponseEntity<AuthorDto> update(@PathVariable Long authorId, @RequestBody @Valid AuthorDto authorDto) {
+        authorDto = authorService.updateById(authorDto);
 
         return ResponseEntity.ok().body(authorDto);
     }
