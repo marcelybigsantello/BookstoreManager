@@ -22,8 +22,6 @@ public class AuthorDto {
 
     private Long id;
 
-    @NotNull
-    @NotEmpty
     @Size(max = 255)
     private String name;
 
@@ -31,11 +29,8 @@ public class AuthorDto {
 
     private Integer age;
 
-    @NotNull
     private LocalDate birthDate;
 
-    @NotNull
-    @NotEmpty
     private String literaryGenre;
 
     @OneToMany(mappedBy = "author", fetch = FetchType.LAZY) //Toda vez que se efetuar uma consulta de author, por padrão, não virá os dados de livro junto

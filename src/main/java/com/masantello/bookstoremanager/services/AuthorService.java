@@ -6,9 +6,11 @@ import com.masantello.bookstoremanager.mappers.AuthorMapper;
 import com.masantello.bookstoremanager.models.Author;
 import com.masantello.bookstoremanager.models.enums.LiteraryGenre;
 import com.masantello.bookstoremanager.repositories.AuthorRepository;
+import com.masantello.bookstoremanager.validation.AbstractAuthorValidator;
 import jakarta.persistence.EntityNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,15 +23,24 @@ public class AuthorService {
     private static final Logger logger = LoggerFactory.getLogger(AuthorService.class);
 
     private final AuthorMapper authorMapper;
+    private final AbstractAuthorValidator<AuthorDto> validatorCreate;
     private final AuthorRepository authorRepository;
 
-    public AuthorService(AuthorMapper authorMapper, AuthorRepository authorRepository) {
+    public AuthorService(AuthorMapper authorMapper,
+                         @Qualifier("authorValidator")
+                         AbstractAuthorValidator<AuthorDto> validatorCreate,
+                         AuthorRepository authorRepository) {
         this.authorMapper = authorMapper;
+        this.validatorCreate = validatorCreate;
         this.authorRepository = authorRepository;
     }
 
     public AuthorDto create(AuthorDto authorDto) {
         Author author = authorMapper.convertToModel(authorDto);
+
+        logger.debug("Validating request's information");
+        validatorCreate.validate(authorDto);
+
         author = authorRepository.save(author);
 
         logger.info("Author Id={}, Name={} created successfully.", author.getId(), author.getName());
@@ -62,7 +73,7 @@ public class AuthorService {
             throw new EntityNotFoundException("Author ID " +id+ " was not found in database.");
         }
 
-        logger.info("Author ID {} found in database", id);
+        logger.info("Author ID {}, Name {} found in database", id, author.get().getName());
         return authorMapper.convertToDto(author.get());
     }
 
