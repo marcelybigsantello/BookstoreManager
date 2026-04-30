@@ -92,9 +92,13 @@ public class AuthorService {
     public void delete(Long authorId) {
         var author = authorRepository.findById(authorId);
 
-        author.ifPresent(author1 -> {
+        author.ifPresentOrElse(author1 -> {
             validatorDelete.validate(authorMapper.convertToDto(author1));
             authorRepository.delete(author1);
+        }, () -> {
+            var errorMessage = String.format("Author Id={%s} not found.", authorId);
+            throw new EntityNotFoundException(errorMessage);
         });
+
     }
 }
