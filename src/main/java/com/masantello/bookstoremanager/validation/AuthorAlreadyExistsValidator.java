@@ -1,8 +1,8 @@
 package com.masantello.bookstoremanager.validation;
 
 import com.masantello.bookstoremanager.dtos.AuthorDto;
-import com.masantello.bookstoremanager.exceptions.ObjectExistsException;
 import com.masantello.bookstoremanager.repositories.AuthorRepository;
+import jakarta.persistence.EntityExistsException;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -17,7 +17,8 @@ public class AuthorAlreadyExistsValidator extends AbstractAuthorValidator<Author
     @Override
     public AuthorDto validate(AuthorDto authorDto) {
         if (authorRepository.findByNameContainingIgnoreCase(authorDto.getName()).isPresent()) {
-            throw new ObjectExistsException("This author is already registered.");
+            var errorMessage = String.format("This author %s is already registered.", authorDto.getName());
+            throw new EntityExistsException(errorMessage);
         }
 
         return validateNext(authorDto);

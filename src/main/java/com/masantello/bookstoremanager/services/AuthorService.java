@@ -24,23 +24,30 @@ public class AuthorService {
 
     private final AuthorMapper authorMapper;
     private final AbstractAuthorValidator<AuthorDto> validatorCreate;
+    private final AbstractAuthorValidator<AuthorDto> validatorUpdate;
+    private final AbstractAuthorValidator<AuthorDto> validatorDelete;
     private final AuthorRepository authorRepository;
 
     public AuthorService(AuthorMapper authorMapper,
-                         @Qualifier("authorValidator")
+                         @Qualifier("authorCreateValidator")
                          AbstractAuthorValidator<AuthorDto> validatorCreate,
+                         @Qualifier("authorUpdateValidator")
+                         AbstractAuthorValidator<AuthorDto> validatorUpdate,
+                         @Qualifier("authorDeleteValidator")
+                         AbstractAuthorValidator<AuthorDto> validatorDelete,
                          AuthorRepository authorRepository) {
         this.authorMapper = authorMapper;
         this.validatorCreate = validatorCreate;
+        this.validatorUpdate = validatorUpdate;
+        this.validatorDelete = validatorDelete;
         this.authorRepository = authorRepository;
     }
 
     public AuthorDto create(AuthorDto authorDto) {
-        Author author = authorMapper.convertToModel(authorDto);
-
         logger.debug("Validating request's information");
         validatorCreate.validate(authorDto);
 
+        Author author = authorMapper.convertToModel(authorDto);
         author = authorRepository.save(author);
 
         logger.info("Author Id={}, Name={} created successfully.", author.getId(), author.getName());
@@ -65,20 +72,11 @@ public class AuthorService {
         return authorMapper.convertToDto(author.get());
     }
 
-    public AuthorDto findById(Long id) {
-        Optional<Author> author = authorRepository.findById(id);
-
-        if (author.isEmpty()) {
-            logger.error("Author ID {} does not exist in database. You should try another one.", id);
-            throw new EntityNotFoundException("Author ID " +id+ " was not found in database.");
-        }
-
-        logger.info("Author ID {}, Name {} found in database", id, author.get().getName());
-        return authorMapper.convertToDto(author.get());
-    }
 
     public AuthorDto updateById(AuthorDto authorDto) {
-        Author newAuthorData = authorMapper.convertToModel(findById(authorDto.getId()));
+        validatorUpdate.validate(authorDto);
+
+        Author newAuthorData = authorMapper.convertToModel(authorDto);
 
         newAuthorData.setName(authorDto.getName());
         newAuthorData.setEmail(authorDto.getEmail());
@@ -92,13 +90,11 @@ public class AuthorService {
     }
 
     public void delete(Long authorId) {
-        var authorDto = findById(authorId);
+        var author = authorRepository.findById(authorId);
 
-        if (authorDto.getBooks() != null && !authorDto.getBooks().isEmpty()) {
-            throw new DataIntegrityViolationException("Author " +authorDto.getName()+ " has some books registered. "
-                    + "It is not possible to delete it.");
-        }
-
-        authorRepository.delete(authorMapper.convertToModel(authorDto));
+        author.ifPresent(author1 -> {
+            validatorDelete.validate(authorMapper.convertToDto(author1));
+            authorRepository.delete(author1);
+        });
     }
 }

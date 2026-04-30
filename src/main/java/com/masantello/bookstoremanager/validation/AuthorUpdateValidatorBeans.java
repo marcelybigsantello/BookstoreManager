@@ -8,20 +8,18 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 @Component
-public class AuthorValidatorBeans {
-
-    //Chain of Responsibilities
+public class AuthorUpdateValidatorBeans {
 
     private final AuthorAlreadyExistsValidator authorAlreadyExistsValidator;
     private final NullMandatoryFieldsValidator nullMandatoryFieldsValidator;
 
-    public AuthorValidatorBeans(AuthorAlreadyExistsValidator authorAlreadyExistsValidator,
-                                NullMandatoryFieldsValidator nullMandatoryFieldsValidator) {
+    public AuthorUpdateValidatorBeans(AuthorAlreadyExistsValidator authorAlreadyExistsValidator,
+                                      NullMandatoryFieldsValidator nullMandatoryFieldsValidator) {
         this.authorAlreadyExistsValidator = authorAlreadyExistsValidator;
         this.nullMandatoryFieldsValidator = nullMandatoryFieldsValidator;
     }
 
-    @Bean("authorValidator")
+    @Bean("authorUpdateValidator")
     @Scope("prototype")
     public AbstractAuthorValidator<AuthorDto> abstractAuditAuthorValidator() {
         return AbstractAuthorValidator.link(
