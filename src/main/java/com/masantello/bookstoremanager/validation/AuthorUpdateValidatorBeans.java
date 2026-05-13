@@ -10,12 +10,12 @@ import java.util.List;
 @Component
 public class AuthorUpdateValidatorBeans {
 
-    private final AuthorAlreadyExistsValidator authorAlreadyExistsValidator;
+    private final AuthorExistsValidator authorExistsValidator;
     private final NullMandatoryFieldsValidator nullMandatoryFieldsValidator;
 
-    public AuthorUpdateValidatorBeans(AuthorAlreadyExistsValidator authorAlreadyExistsValidator,
+    public AuthorUpdateValidatorBeans(AuthorExistsValidator authorExistsValidator,
                                       NullMandatoryFieldsValidator nullMandatoryFieldsValidator) {
-        this.authorAlreadyExistsValidator = authorAlreadyExistsValidator;
+        this.authorExistsValidator = authorExistsValidator;
         this.nullMandatoryFieldsValidator = nullMandatoryFieldsValidator;
     }
 
@@ -23,7 +23,7 @@ public class AuthorUpdateValidatorBeans {
     @Scope("prototype")
     public AbstractAuthorValidator<AuthorDto> abstractAuditAuthorValidator() {
         return AbstractAuthorValidator.link(
-                authorAlreadyExistsValidator,
+                authorExistsValidator,
                 List.of(nullMandatoryFieldsValidator)
         );
     }

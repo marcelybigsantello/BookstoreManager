@@ -27,9 +27,6 @@ public class Book {
     @Column(name = "pages", columnDefinition = "integer default 0")
     private int pages;
 
-    @Column(name = "chapters", columnDefinition = "integer default 0")
-    private int chapters;
-
     @Column(name = "releaseDate", columnDefinition = "TIMESTAMP")
     private LocalDate releaseDate;
 

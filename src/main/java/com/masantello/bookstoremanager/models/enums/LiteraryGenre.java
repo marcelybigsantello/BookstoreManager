@@ -16,7 +16,9 @@ public enum LiteraryGenre {
     MYSTERY(7,"Mystery"),
     ROMANCE(8,"Romance"),
     SCIENCE_FICTION(9,"Science Fiction"),
-    THRILLER(10,"Thriller");
+    SELF_HELP(10, "Self-help"),
+    THRILLER(11,"Thriller"),
+    UTOPIA(12, "Utopia");
 
     private final int code;
     private final String description;
