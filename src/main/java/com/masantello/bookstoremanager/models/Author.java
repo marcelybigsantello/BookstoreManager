@@ -20,20 +20,20 @@ public class Author {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "name", nullable = false, unique = true)
+    @Column(name = "NAME", nullable = false, unique = true)
     private String name;
 
-    @Column(name = "email", nullable = false)
+    @Column(name = "EMAIL", nullable = false)
     private String email;
 
-    @Column(columnDefinition = "integer default 0")
+    @Column(name = "AGE", columnDefinition = "integer default 0")
     private int age;
 
-    @Column(name = "birthDate")
+    @Column(name = "BIRTH_DATE")
     private LocalDate birthDate;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "literaryGenre", nullable = false)
+    @Column(name = "LITERARY_GENRE", nullable = false)
     private LiteraryGenre literaryGenre;
 
     @OneToMany(mappedBy = "author", fetch = FetchType.LAZY) //Toda vez que se efetuar uma consulta de author, por padrão, não virá os dados de livro junto
