@@ -34,7 +34,7 @@ public enum LiteraryGenre {
 
     public static String convertToDescription(LiteraryGenre literaryGenre) {
         for (LiteraryGenre genre : LiteraryGenre.values()) {
-            if (literaryGenre.getDescription().equalsIgnoreCase(genre.getDescription())){
+            if (literaryGenre != null && literaryGenre.getDescription().equalsIgnoreCase(genre.getDescription())) {
                 return genre.getDescription();
             }
         }

@@ -23,7 +23,7 @@ public interface AuthorController {
 
     @ApiOperation(value = "List all authors operation")
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Success authors found")
+            @ApiResponse(code = 200, message = "Return all registered authors")
     })
     ResponseEntity<List<AuthorDto>> findAll();
 
