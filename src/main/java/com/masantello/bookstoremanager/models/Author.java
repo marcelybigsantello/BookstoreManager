@@ -27,7 +27,7 @@ public class Author {
     private String email;
 
     @Column(name = "AGE", columnDefinition = "integer default 0")
-    private int age;
+    private Integer age;
 
     @Column(name = "BIRTH_DATE")
     private LocalDate birthDate;
