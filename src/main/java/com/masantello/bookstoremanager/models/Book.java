@@ -16,18 +16,19 @@ public class Book {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "BOOK_ID")
     private Long id;
 
-    @Column(name = "title", nullable = false)
+    @Column(name = "TITLE", nullable = false)
     private String title;
 
     @Column(name = "ISBN", nullable = false)
     private String isbn;
 
-    @Column(name = "pages", columnDefinition = "integer default 0")
+    @Column(name = "PAGES_NUMBER", columnDefinition = "integer default 0")
     private int pages;
 
-    @Column(name = "releaseDate", columnDefinition = "TIMESTAMP")
+    @Column(name = "RELEASE_DATE", columnDefinition = "TIMESTAMP")
     private LocalDate releaseDate;
 
     @ManyToOne(cascade = {CascadeType.MERGE})

@@ -68,7 +68,7 @@ public class AuthorService {
             throw new EntityNotFoundException("Author " +authorName+ " was not found in database.");
         }
 
-        logger.info("Author {} found in database", authorName);
+        logger.info("Author '{}' found in database", authorName);
         return authorMapper.convertToDto(author.get());
     }
 
@@ -76,17 +76,17 @@ public class AuthorService {
     public AuthorDto updateById(AuthorDto authorDto) {
         validatorUpdate.validate(authorDto);
 
-        Author newAuthorData = authorMapper.convertToModel(authorDto);
+        Author authorNewData = authorMapper.convertToModel(authorDto);
 
-        newAuthorData.setName(authorDto.getName());
-        newAuthorData.setEmail(authorDto.getEmail());
-        newAuthorData.setAge(authorDto.getAge());
-        newAuthorData.setBirthDate(authorDto.getBirthDate());
-        newAuthorData.setLiteraryGenre(LiteraryGenre.findByDescription(authorDto.getLiteraryGenre()));
+        authorNewData.setName(authorDto.getName());
+        authorNewData.setEmail(authorDto.getEmail());
+        authorNewData.setAge(authorDto.getAge());
+        authorNewData.setBirthDate(authorDto.getBirthDate());
+        authorNewData.setLiteraryGenre(LiteraryGenre.findByDescription(authorDto.getLiteraryGenre()));
 
-        authorRepository.save(newAuthorData);
-        logger.info("Author {} updated successfully.", authorDto.getName());
-        return authorMapper.convertToDto(newAuthorData);
+        authorRepository.save(authorNewData);
+        logger.info("Author '{}' updated successfully.", authorDto.getName());
+        return authorMapper.convertToDto(authorNewData);
     }
 
     public void delete(Long authorId) {

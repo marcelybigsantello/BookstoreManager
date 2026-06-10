@@ -10,23 +10,25 @@ import java.time.LocalDate;
 import java.util.List;
 
 @Entity
-@Table(name = "Author")
+@Table(name = "AUTHOR")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class Author {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "author_sequence")
+    @SequenceGenerator(name = "author_sequence", sequenceName = "S_AUTHOR", allocationSize = 1)
+    @Column(name = "AUTHOR_ID")
     private Long id;
 
-    @Column(name = "NAME", nullable = false, unique = true)
+    @Column(name = "AUTHOR_NAME", nullable = false, unique = true)
     private String name;
 
-    @Column(name = "EMAIL", nullable = false)
+    @Column(name = "AUTHOR_EMAIL", nullable = false)
     private String email;
 
-    @Column(name = "AGE", columnDefinition = "integer default 0")
+    @Column(name = "AUTHOR_AGE", columnDefinition = "integer default 0")
     private Integer age;
 
     @Column(name = "BIRTH_DATE")
@@ -36,7 +38,7 @@ public class Author {
     @Column(name = "LITERARY_GENRE", nullable = false)
     private LiteraryGenre literaryGenre;
 
-    @OneToMany(mappedBy = "author", fetch = FetchType.LAZY) //Toda vez que se efetuar uma consulta de author, por padrão, não virá os dados de livro junto
+    @OneToMany(mappedBy = "author", fetch = FetchType.LAZY) //Toda vez que se efetuar uma consulta de author, por padrão, não virá os dados de livros junto
     private List<Book> books;
 
 }
