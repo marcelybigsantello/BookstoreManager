@@ -33,7 +33,7 @@ public interface PublisherController {
             @ApiResponse(code = 200, message = "Success publisher found"),
             @ApiResponse(code = 404, message = "Publisher not found error code")
     })
-    ResponseEntity<PublisherDto> findByName(@PathVariable String publisherName);
+    ResponseEntity<List<PublisherDto>> findByName(@PathVariable String publisherName);
 
     @ApiOperation(value = "Delete publisher operation")
     @ApiResponses(value = {
