@@ -6,13 +6,11 @@ import com.masantello.bookstoremanager.mappers.AuthorMapper;
 import com.masantello.bookstoremanager.models.Author;
 import com.masantello.bookstoremanager.models.enums.LiteraryGenre;
 import com.masantello.bookstoremanager.repositories.AuthorRepository;
-import com.masantello.bookstoremanager.validation.AbstractAuthorValidator;
+import com.masantello.bookstoremanager.validation.AbstractValidator;
 import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -34,15 +32,15 @@ public class AuthorServiceTest {
 
     @MockitoBean
     @Qualifier("authorCreateValidator")
-    private AbstractAuthorValidator<AuthorDto> validatorCreate;
+    private AbstractValidator<AuthorDto> validatorCreate;
 
     @MockitoBean
     @Qualifier("authorUpdateValidator")
-    private AbstractAuthorValidator<AuthorDto> validatorUpdate;
+    private AbstractValidator<AuthorDto> validatorUpdate;
 
     @MockitoBean
     @Qualifier("authorDeleteValidator")
-    private AbstractAuthorValidator<AuthorDto> validatorDelete;
+    private AbstractValidator<AuthorDto> validatorDelete;
 
     @MockitoBean
     private AuthorRepository authorRepository;

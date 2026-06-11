@@ -1,6 +1,7 @@
-package com.masantello.bookstoremanager.validation;
+package com.masantello.bookstoremanager.validation.author;
 
 import com.masantello.bookstoremanager.dtos.AuthorDto;
+import com.masantello.bookstoremanager.validation.AbstractValidator;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -21,8 +22,8 @@ public class AuthorDeleteValidatorBeans {
 
     @Bean("authorDeleteValidator")
     @Scope("prototype")
-    public AbstractAuthorValidator<AuthorDto> abstractAuditAuthorValidator() {
-        return AbstractAuthorValidator.link(
+    public AbstractValidator<AuthorDto> abstractAuditAuthorValidator() {
+        return AbstractValidator.link(
                 authorExistsValidator,
                 List.of(authorHasBooksValidator)
         );

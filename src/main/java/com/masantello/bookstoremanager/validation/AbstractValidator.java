@@ -2,12 +2,13 @@ package com.masantello.bookstoremanager.validation;
 
 import java.util.List;
 
-public abstract class AbstractAuthorValidator<T> {
+//Chain of Responsibilities
+public abstract class AbstractValidator<T> {
 
-    public AbstractAuthorValidator<T> next;
+    public AbstractValidator<T> next;
 
-    public static <T> AbstractAuthorValidator<T> link(AbstractAuthorValidator<T> first,
-                                                      List<AbstractAuthorValidator<T>> chain) {
+    public static <T> AbstractValidator<T> link(AbstractValidator<T> first,
+                                                List<AbstractValidator<T>> chain) {
         var head = first;
         for (var nextPresentInChain : chain) {
             head.next = nextPresentInChain;

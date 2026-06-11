@@ -1,12 +1,11 @@
 package com.masantello.bookstoremanager.services;
 
 import com.masantello.bookstoremanager.dtos.AuthorDto;
-import com.masantello.bookstoremanager.exceptions.DataIntegrityViolationException;
 import com.masantello.bookstoremanager.mappers.AuthorMapper;
 import com.masantello.bookstoremanager.models.Author;
 import com.masantello.bookstoremanager.models.enums.LiteraryGenre;
 import com.masantello.bookstoremanager.repositories.AuthorRepository;
-import com.masantello.bookstoremanager.validation.AbstractAuthorValidator;
+import com.masantello.bookstoremanager.validation.AbstractValidator;
 import jakarta.persistence.EntityNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,7 +13,6 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -23,18 +21,18 @@ public class AuthorService {
     private static final Logger logger = LoggerFactory.getLogger(AuthorService.class);
 
     private final AuthorMapper authorMapper;
-    private final AbstractAuthorValidator<AuthorDto> validatorCreate;
-    private final AbstractAuthorValidator<AuthorDto> validatorUpdate;
-    private final AbstractAuthorValidator<AuthorDto> validatorDelete;
+    private final AbstractValidator<AuthorDto> validatorCreate;
+    private final AbstractValidator<AuthorDto> validatorUpdate;
+    private final AbstractValidator<AuthorDto> validatorDelete;
     private final AuthorRepository authorRepository;
 
     public AuthorService(AuthorMapper authorMapper,
                          @Qualifier("authorCreateValidator")
-                         AbstractAuthorValidator<AuthorDto> validatorCreate,
+                         AbstractValidator<AuthorDto> validatorCreate,
                          @Qualifier("authorUpdateValidator")
-                         AbstractAuthorValidator<AuthorDto> validatorUpdate,
+                         AbstractValidator<AuthorDto> validatorUpdate,
                          @Qualifier("authorDeleteValidator")
-                         AbstractAuthorValidator<AuthorDto> validatorDelete,
+                         AbstractValidator<AuthorDto> validatorDelete,
                          AuthorRepository authorRepository) {
         this.authorMapper = authorMapper;
         this.validatorCreate = validatorCreate;
@@ -95,6 +93,7 @@ public class AuthorService {
         author.ifPresentOrElse(author1 -> {
             validatorDelete.validate(authorMapper.convertToDto(author1));
             authorRepository.delete(author1);
+
         }, () -> {
             var errorMessage = String.format("Author Id={%s} not found.", authorId);
             throw new EntityNotFoundException(errorMessage);

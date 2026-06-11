@@ -1,11 +1,12 @@
-package com.masantello.bookstoremanager.validation;
+package com.masantello.bookstoremanager.validation.author;
 
 import com.masantello.bookstoremanager.dtos.AuthorDto;
 import com.masantello.bookstoremanager.exceptions.DataIntegrityViolationException;
+import com.masantello.bookstoremanager.validation.AbstractValidator;
 import org.springframework.stereotype.Component;
 
 @Component
-public class AuthorHasBooksValidator extends AbstractAuthorValidator<AuthorDto> {
+public class AuthorHasBooksValidator extends AbstractValidator<AuthorDto> {
 
 
     @Override
