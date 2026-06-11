@@ -9,23 +9,28 @@ import java.time.LocalDate;
 import java.util.List;
 
 @Entity
-@Table(name = "Publisher")
+@Table(name = "PUBLISHER")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class Publisher {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "publisher_sequence")
+    @SequenceGenerator(name = "publisher_sequence", sequenceName = "S_PUBLISHER", allocationSize = 1)
+    @Column(name = "PUBLISHER_ID")
     private Long id;
 
-    @Column(name = "name", nullable = false, unique = true)
+    @Column(name = "PUBLISHER_NAME", nullable = false, unique = true)
     private String name;
 
-    @Column(name = "code", nullable = false, unique = true)
+    @Column(name = "PUBLISHER_CODE", nullable = false, unique = true)
     private String code;
 
-    @Column(name = "foundationDate", nullable = false, columnDefinition = "TIMESTAMP")
+    @Column(name = "PUBLISHER_DESCRIPTION")
+    private String description;
+
+    @Column(name = "FOUNDATION_DATE", nullable = false, columnDefinition = "TIMESTAMP")
     private LocalDate foundationDate;
 
     @OneToMany(mappedBy = "publisher", fetch = FetchType.LAZY)

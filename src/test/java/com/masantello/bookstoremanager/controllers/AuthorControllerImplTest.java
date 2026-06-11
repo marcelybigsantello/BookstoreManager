@@ -1,12 +1,15 @@
 package com.masantello.bookstoremanager.controllers;
 
 import com.masantello.bookstoremanager.dtos.AuthorDto;
+import com.masantello.bookstoremanager.exceptions.MissingMandatoryFieldsException;
+import com.masantello.bookstoremanager.mappers.AuthorMapper;
 import com.masantello.bookstoremanager.models.Author;
 import com.masantello.bookstoremanager.models.enums.LiteraryGenre;
 import com.masantello.bookstoremanager.services.AuthorService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
@@ -32,6 +35,9 @@ public class AuthorControllerImplTest {
     @MockitoBean
     private AuthorService authorService;
 
+    @Mock
+    private AuthorMapper authorMapper;
+
     private AuthorDto authorDto;
 
     @BeforeEach
@@ -43,6 +49,7 @@ public class AuthorControllerImplTest {
         authorDto.setAge(123);
         authorDto.setBirthDate(LocalDate.of(1903, 6, 25));
         authorDto.setLiteraryGenre("Utopia");
+        authorMapper = new AuthorMapper();
     }
 
     // =============================== CREATE TESTS =======================================
@@ -70,7 +77,7 @@ public class AuthorControllerImplTest {
 
     @Test
     @DisplayName("Should invoke AuthorService.create exactly once during author creation")
-    void testeCreateAuthorCallsServiceOnce() {
+    void testCreateAuthorCallsServiceOnce() {
         //Arrange
         when(authorService.create(any(AuthorDto.class))).thenReturn(authorDto);
 
@@ -78,6 +85,24 @@ public class AuthorControllerImplTest {
         authorController.create(authorDto);
 
         //Assert
+        verify(authorService, times(1)).create(any(AuthorDto.class));
+    }
+
+    //@Test
+    @DisplayName("Should not create an author with null literary genre")
+    void testCreateAuthorWithoutLiteraryGenre() {
+        //Arrange
+        authorDto.setLiteraryGenre(null);
+        //doNothing().when(authorService).create(authorDto);
+
+        //Act
+        var response = authorController.create(authorDto);
+
+        doThrow(MissingMandatoryFieldsException.class).when(authorController.create(authorDto));
+
+        //Assert
+        assertNotEquals(HttpStatus.CREATED, response.getStatusCode());
+        assertNull(response.getBody());
         verify(authorService, times(1)).create(any(AuthorDto.class));
     }
 

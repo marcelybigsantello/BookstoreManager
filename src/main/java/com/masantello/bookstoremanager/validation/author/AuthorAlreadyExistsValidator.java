@@ -1,12 +1,13 @@
-package com.masantello.bookstoremanager.validation;
+package com.masantello.bookstoremanager.validation.author;
 
 import com.masantello.bookstoremanager.dtos.AuthorDto;
 import com.masantello.bookstoremanager.repositories.AuthorRepository;
+import com.masantello.bookstoremanager.validation.AbstractValidator;
 import jakarta.persistence.EntityExistsException;
 import org.springframework.stereotype.Component;
 
 @Component
-public class AuthorAlreadyExistsValidator extends AbstractAuthorValidator<AuthorDto> {
+public class AuthorAlreadyExistsValidator extends AbstractValidator<AuthorDto> {
 
     private final AuthorRepository authorRepository;
 

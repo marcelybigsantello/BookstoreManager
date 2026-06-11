@@ -1,0 +1,77 @@
+package com.masantello.bookstoremanager.services;
+
+import com.masantello.bookstoremanager.dtos.PublisherDto;
+import com.masantello.bookstoremanager.mappers.PublisherMapper;
+import com.masantello.bookstoremanager.models.Publisher;
+import com.masantello.bookstoremanager.repositories.PublisherRepository;
+import com.masantello.bookstoremanager.validation.AbstractValidator;
+import jakarta.persistence.EntityNotFoundException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
+@Service
+public class PublisherService {
+
+    private static final Logger logger = LoggerFactory.getLogger(PublisherService.class);
+
+    private final PublisherRepository publisherRepository;
+    private final PublisherMapper publisherMapper;
+    private final AbstractValidator<PublisherDto> validatorCreate;
+
+    public PublisherService(PublisherRepository publisherRepository,
+                            PublisherMapper publisherMapper,
+                            @Qualifier("publisherCreateValidator")
+                            AbstractValidator<PublisherDto> validatorCreate) {
+        this.publisherRepository = publisherRepository;
+        this.publisherMapper = publisherMapper;
+        this.validatorCreate = validatorCreate;
+    }
+
+    public PublisherDto create(PublisherDto publisherDto) {
+        logger.debug("Validating publisher request's information");
+        validatorCreate.validate(publisherDto);
+
+        Publisher publisher = publisherMapper.convertToModel(publisherDto);
+        publisher = publisherRepository.save(publisher);
+
+        logger.info("Publisher ID={}, Name={} created successfully.", publisher.getId(), publisher.getName());
+        return publisherMapper.convertToDto(publisher);
+    }
+
+    public List<PublisherDto> findAll() {
+        var publishers = publisherRepository.findAll();
+
+        return publishers.stream().map(publisherMapper::convertToDto).collect(Collectors.toList());
+    }
+
+    public PublisherDto findByName(String publisherName) {
+        var publisher = publisherRepository.findByNameContainingIgnoreCase(publisherName);
+
+        if (publisher.isEmpty()) {
+            logger.error("Publisher {} does not exist in database. You should try another one.", publisherName);
+            throw new EntityNotFoundException("Publisher " +publisherName+ " was not found in database.");
+        }
+
+        logger.info("Publisher '{}' found in database", publisherName);
+        return publisherMapper.convertToDto(publisher.get());
+    }
+
+    public void delete(Long publisherId) {
+        var publisher = publisherRepository.findById(publisherId);
+
+        publisher.ifPresentOrElse(publisher1 -> {
+            logger.info("Deleting publisher='{}', ID={}", publisher1.getName(), publisher1.getName());
+            publisherRepository.delete(publisher1);
+        }, () -> {
+            var errorMessage = String.format("Publisher ID={%s} was not found in database.", publisherId);
+            throw new EntityNotFoundException(errorMessage);
+        });
+    }
+
+
+}
