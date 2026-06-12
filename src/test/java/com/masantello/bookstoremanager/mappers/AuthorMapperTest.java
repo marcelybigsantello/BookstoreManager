@@ -100,16 +100,17 @@ public class AuthorMapperTest {
         //Arrange
 
         //Act
-        var author = authorMapper.convertToModel(authorDto);
+        var authorDto = authorMapper.convertToDto(author);
 
         //Assert
-        assertThat(author).isNotNull();
-        assertEquals(author.getId(), authorDto.getId());
-        assertEquals(author.getName(), authorDto.getName());
-        assertEquals(author.getEmail(), authorDto.getEmail());
-        assertEquals(author.getBirthDate(), authorDto.getBirthDate());
-        assertEquals(author.getAge(), authorDto.getAge());
-        assertEquals(author.getLiteraryGenre(), LiteraryGenre.findByDescription(authorDto.getLiteraryGenre()));
+        assertThat(authorDto).isNotNull();
+        assertEquals(authorDto.getId(), author.getId());
+        assertEquals(authorDto.getName(), author.getName());
+        assertEquals(authorDto.getEmail(), author.getEmail());
+        assertEquals(authorDto.getBirthDate(), author.getBirthDate());
+        assertEquals(authorDto.getAge(), author.getAge());
+        assertEquals(authorDto.getLiteraryGenre(), LiteraryGenre.convertToDescription(author.getLiteraryGenre()));
     }
+
 
 }
