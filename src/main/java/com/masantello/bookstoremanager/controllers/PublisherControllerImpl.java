@@ -36,7 +36,7 @@ public class PublisherControllerImpl implements PublisherController {
     }
 
     @GetMapping(value = "/{publisherName}")
-    public ResponseEntity<PublisherDto> findByName(String publisherName) {
+    public ResponseEntity<List<PublisherDto>> findByName(String publisherName) {
         var publisherDto = publisherService.findByName(publisherName);
 
         return ResponseEntity.ok().body(publisherDto);

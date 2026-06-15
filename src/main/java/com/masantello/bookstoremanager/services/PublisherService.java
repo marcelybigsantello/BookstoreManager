@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -49,16 +50,19 @@ public class PublisherService {
         return publishers.stream().map(publisherMapper::convertToDto).collect(Collectors.toList());
     }
 
-    public PublisherDto findByName(String publisherName) {
-        var publisher = publisherRepository.findByNameContainingIgnoreCase(publisherName);
+    public List<PublisherDto> findByName(String publisherName) {
+        var publishers = publisherRepository.findByNameContainingIgnoreCase(publisherName);
 
-        if (publisher.isEmpty()) {
-            logger.error("Publisher {} does not exist in database. You should try another one.", publisherName);
-            throw new EntityNotFoundException("Publisher " +publisherName+ " was not found in database.");
+        if (publishers.isEmpty()) {
+            logger.error("Publisher's name {} does not exist in database. You should try another one.", publisherName);
+            return Collections.emptyList();
         }
 
-        logger.info("Publisher '{}' found in database", publisherName);
-        return publisherMapper.convertToDto(publisher.get());
+        logger.info("{} publisher(s) containing '{}' were found in database", publishers.size(), publisherName);
+
+        return publishers.stream()
+                .map(publisherMapper::convertToDto)
+                .collect(Collectors.toList());
     }
 
     public void delete(Long publisherId) {

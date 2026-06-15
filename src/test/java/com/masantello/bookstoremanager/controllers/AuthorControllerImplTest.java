@@ -3,7 +3,6 @@ package com.masantello.bookstoremanager.controllers;
 import com.masantello.bookstoremanager.dtos.AuthorDto;
 import com.masantello.bookstoremanager.exceptions.MissingMandatoryFieldsException;
 import com.masantello.bookstoremanager.mappers.AuthorMapper;
-import com.masantello.bookstoremanager.models.Author;
 import com.masantello.bookstoremanager.models.enums.LiteraryGenre;
 import com.masantello.bookstoremanager.services.AuthorService;
 import org.junit.jupiter.api.BeforeEach;
@@ -88,21 +87,18 @@ public class AuthorControllerImplTest {
         verify(authorService, times(1)).create(any(AuthorDto.class));
     }
 
-    //@Test
+    @Test
     @DisplayName("Should not create an author with null literary genre")
     void testCreateAuthorWithoutLiteraryGenre() {
         //Arrange
         authorDto.setLiteraryGenre(null);
-        //doNothing().when(authorService).create(authorDto);
+        when(authorService.create(any(AuthorDto.class)))
+                .thenThrow(new MissingMandatoryFieldsException("Campos obrigatorios ausentes"));
 
         //Act
-        var response = authorController.create(authorDto);
-
-        doThrow(MissingMandatoryFieldsException.class).when(authorController.create(authorDto));
+        assertThrows(MissingMandatoryFieldsException.class, () -> authorController.create(authorDto));
 
         //Assert
-        assertNotEquals(HttpStatus.CREATED, response.getStatusCode());
-        assertNull(response.getBody());
         verify(authorService, times(1)).create(any(AuthorDto.class));
     }
 
@@ -297,8 +293,5 @@ public class AuthorControllerImplTest {
         verify(authorService).delete(10L);
         verify(authorService, times(3)).delete(anyLong());
     }
-
-
-
 
 }

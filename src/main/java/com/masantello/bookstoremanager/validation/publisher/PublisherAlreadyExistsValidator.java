@@ -17,10 +17,10 @@ public class PublisherAlreadyExistsValidator extends AbstractValidator<Publisher
 
     @Override
     public PublisherDto validate(PublisherDto publisherDto) {
-        var publisher = publisherRepository.findByNameContainingIgnoreCase(publisherDto.getName());
+        var publishers = publisherRepository.findByNameContainingIgnoreCase(publisherDto.getName());
 
-        if (publisher.isPresent()) {
-            var errorMessage = String.format("Publisher %s already exists in database.", publisherDto.getName());
+        if (!publishers.isEmpty()) {
+            var errorMessage = String.format("Publisher '%s' already exists in database.", publisherDto.getName());
             throw new EntityExistsException(errorMessage);
         }
 
