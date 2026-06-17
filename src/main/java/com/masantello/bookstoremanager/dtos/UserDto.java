@@ -1,6 +1,5 @@
 package com.masantello.bookstoremanager.dtos;
 
-import com.masantello.bookstoremanager.models.enums.Gender;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

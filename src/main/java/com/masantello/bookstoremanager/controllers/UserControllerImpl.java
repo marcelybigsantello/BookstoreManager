@@ -48,7 +48,8 @@ public class UserControllerImpl implements UserController {
 
     @Override
     @PutMapping(value = "/{userId}")
-    public ResponseEntity<Void> update(@Valid @RequestBody UserDto userDto) {
+    public ResponseEntity<Void> update(@PathVariable Long userId, @Valid @RequestBody UserDto userDto) {
+        userDto.setId(userId);
         userService.update(userDto);
 
         return ResponseEntity.noContent().build();

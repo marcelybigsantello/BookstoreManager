@@ -1,6 +1,5 @@
 package com.masantello.bookstoremanager.controllers;
 
-import com.masantello.bookstoremanager.dtos.AuthorDto;
 import com.masantello.bookstoremanager.dtos.PublisherDto;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
