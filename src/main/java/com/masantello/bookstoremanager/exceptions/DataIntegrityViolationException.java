@@ -1,8 +1,6 @@
 package com.masantello.bookstoremanager.exceptions;
 
-import jakarta.persistence.PersistenceException;
-
-public class DataIntegrityViolationException extends PersistenceException {
+public class DataIntegrityViolationException extends RuntimeException {
 
     public DataIntegrityViolationException(String msg) {
         super(msg);
