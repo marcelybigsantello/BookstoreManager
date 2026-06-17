@@ -38,5 +38,5 @@ public class Book {
     private Publisher publisher;
 
     @ManyToOne(cascade = {CascadeType.MERGE})
-    private Users user;
+    private User user;
 }

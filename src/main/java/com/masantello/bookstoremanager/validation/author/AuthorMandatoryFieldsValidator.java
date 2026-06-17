@@ -18,7 +18,7 @@ public class AuthorMandatoryFieldsValidator extends AbstractValidator<AuthorDto>
         logger.trace("Validating mandatory fields in author's creating request");
         if (authorDto.getName() == null || authorDto.getLiteraryGenre() == null) {
             logger.error("There are missing mandatory fields in author creation request. "
-                    + "Publisher={}", authorDto);
+                    + "Author={}", authorDto);
             throw new MissingMandatoryFieldsException(MISSING_MANDATORY_FIELDS);
         }
 

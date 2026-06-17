@@ -12,4 +12,22 @@ public enum Gender {
 
     private final int code;
     private final String description;
+
+    public static Gender findByDescription(String description) {
+        for (Gender gender : Gender.values()) {
+            if (gender.getDescription().equalsIgnoreCase(description)) {
+                return gender;
+            }
+        }
+        return null;
+    }
+
+    public static String convertToDescription(Gender gender) {
+        for (Gender gender1 : Gender.values()) {
+            if (gender1 != null && gender1.getDescription().equalsIgnoreCase(gender.getDescription())) {
+                return gender1.getDescription();
+            }
+        }
+        return null;
+    }
 }
