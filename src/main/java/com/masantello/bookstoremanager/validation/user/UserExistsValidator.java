@@ -15,7 +15,7 @@ public class UserExistsValidator extends AbstractValidator<UserDto> {
 
     private static final Logger logger = LoggerFactory.getLogger(UserExistsValidator.class);
 
-    private static final String USER_NOT_FOUND = "Username=%s, name=%s not found in database";
+    private static final String USER_NOT_FOUND = "User{id=%s, name=%s, username=%s} not found in database";
     private final UserRepository userRepository;
 
     public UserExistsValidator(UserRepository userRepository) {
@@ -26,7 +26,7 @@ public class UserExistsValidator extends AbstractValidator<UserDto> {
     public UserDto validate(UserDto userDto) {
 
         if (userRepository.findById(userDto.getId()).isEmpty()) {
-            var errorMessage = String.format(USER_NOT_FOUND, userDto.getUsername(), userDto.getName());
+            var errorMessage = String.format(USER_NOT_FOUND, userDto.getId(), userDto.getName(), userDto.getUsername());
             throw new EntityNotFoundException(errorMessage);
         }
         logger.info("User ID={}, Username='{}' found in database", userDto.getId(), userDto.getUsername());
