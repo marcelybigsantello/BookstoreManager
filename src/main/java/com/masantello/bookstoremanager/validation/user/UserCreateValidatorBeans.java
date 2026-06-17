@@ -17,10 +17,10 @@ public class UserCreateValidatorBeans {
 
     public UserCreateValidatorBeans(UserAlreadyExistsValidator userAlreadyExistsValidator,
                                     UserMandatoryFieldsValidator userMandatoryFieldsValidator,
-                                    UserUniqueFieldsValidator userPasswordAlreadyRegisteredValidator) {
+                                    UserUniqueFieldsValidator userUniqueFieldsValidator) {
         this.userAlreadyExistsValidator = userAlreadyExistsValidator;
         this.userMandatoryFieldsValidator = userMandatoryFieldsValidator;
-        this.userUniqueFieldsValidator = userPasswordAlreadyRegisteredValidator;
+        this.userUniqueFieldsValidator = userUniqueFieldsValidator;
     }
 
     @Bean("createUserValidator")
