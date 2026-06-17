@@ -4,12 +4,13 @@ import com.masantello.bookstoremanager.dtos.UserDto;
 import com.masantello.bookstoremanager.exceptions.DataIntegrityViolationException;
 import com.masantello.bookstoremanager.repositories.UserRepository;
 import com.masantello.bookstoremanager.validation.AbstractValidator;
-import jakarta.persistence.NoResultException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 @Component
+@Scope("prototype")
 public class UserUniqueFieldsValidator extends AbstractValidator<UserDto> {
 
     private static final Logger logger = LoggerFactory.getLogger(UserUniqueFieldsValidator.class);

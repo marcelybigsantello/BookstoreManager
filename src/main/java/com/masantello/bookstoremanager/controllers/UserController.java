@@ -40,7 +40,7 @@ public interface UserController {
             @ApiResponse(code = 200, message = "Success user update"),
             @ApiResponse(code = 404, message = "User not found error code")
     })
-    ResponseEntity<Void> update(@RequestBody UserDto userDto);
+    ResponseEntity<Void> update(@PathVariable Long id, @RequestBody UserDto userDto);
 
     @ApiOperation(value = "Delete user operation")
     @ApiResponses(value = {

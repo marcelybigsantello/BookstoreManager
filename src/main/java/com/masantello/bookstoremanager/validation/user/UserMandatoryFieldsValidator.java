@@ -5,9 +5,11 @@ import com.masantello.bookstoremanager.exceptions.MissingMandatoryFieldsExceptio
 import com.masantello.bookstoremanager.validation.AbstractValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 @Component
+@Scope("prototype")
 public class UserMandatoryFieldsValidator extends AbstractValidator<UserDto> {
 
     private static final Logger logger = LoggerFactory.getLogger(UserMandatoryFieldsValidator.class);

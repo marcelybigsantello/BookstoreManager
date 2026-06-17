@@ -10,6 +10,7 @@ import jakarta.persistence.EntityNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,14 +23,18 @@ public class UserService {
     private final UserRepository userRepository;
     private final UserMapper userMapper;
     private final AbstractValidator<UserDto> createUserValidator;
+    private final AbstractValidator<UserDto> updateUserValidator;
 
     public UserService(UserRepository userRepository,
                        UserMapper userMapper,
                        @Qualifier("createUserValidator")
-                       AbstractValidator<UserDto> createUserValidator) {
+                       AbstractValidator<UserDto> createUserValidator,
+                       @Qualifier("updateUserValidator")
+                       AbstractValidator<UserDto> updateUserValidator) {
         this.userRepository = userRepository;
         this.userMapper = userMapper;
         this.createUserValidator = createUserValidator;
+        this.updateUserValidator = updateUserValidator;
     }
 
     public UserDto create(UserDto userDto) {
@@ -62,6 +67,7 @@ public class UserService {
 
     public void update(UserDto userDto) {
         //Chain of Responsibilities
+        updateUserValidator.validate(userDto);
 
         User user = userMapper.convertToModel(userDto);
         user.setId(userDto.getId());
