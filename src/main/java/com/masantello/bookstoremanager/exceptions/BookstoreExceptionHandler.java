@@ -32,6 +32,20 @@ public class BookstoreExceptionHandler extends ResponseEntityExceptionHandler {
                 exception.getMessage(),
                 Collections.singletonList(exception.getMessage()));
     }
+
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    public ResponseEntity<Object> handleDataIntegrityViolationException(DataIntegrityViolationException exception) {
+        return buildResponseEntity(HttpStatus.BAD_REQUEST,
+                exception.getMessage(),
+                Collections.singletonList(exception.getMessage()));
+    }
+
+    @ExceptionHandler(MissingMandatoryFieldsException.class)
+    public ResponseEntity<Object> handleMissingMandatoryFieldsException(MissingMandatoryFieldsException exception) {
+        return buildResponseEntity(HttpStatus.PRECONDITION_FAILED,
+                exception.getMessage(),
+                Collections.singletonList(exception.getMessage()));
+    }
     
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException exception,
                                                                   HttpHeaders headers,

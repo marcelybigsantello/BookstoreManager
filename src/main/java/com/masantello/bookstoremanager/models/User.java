@@ -10,33 +10,35 @@ import java.time.LocalDate;
 import java.util.List;
 
 @Entity
-@Table(name = "Users")
+@Table(name = "USER_BOOKSTOREMANAGER")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Users {
+public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_sequence")
+    @SequenceGenerator(name = "user_sequence", sequenceName = "S_USER", allocationSize = 1)
+    @Column(name = "USER_ID")
     private Long id;
 
-    @Column(name = "name", nullable = false)
+    @Column(name = "USER_NAME", nullable = false)
     private String name;
 
-    @Column(name = "email", nullable = false, unique = true)
+    @Column(name = "USER_EMAIL", nullable = false, unique = true)
     private String email;
 
-    @Column(name = "birthDate", columnDefinition = "TIMESTAMP")
+    @Column(name = "USER_BIRTHDATE", columnDefinition = "TIMESTAMP")
     private LocalDate birthDate;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "gender", nullable = false)
+    @Column(name = "GENDER", nullable = false)
     private Gender gender;
 
-    @Column(name = "username", nullable = false, unique = true)
+    @Column(name = "USERNAME", nullable = false, unique = true)
     private String username;
 
-    @Column(name = "password", nullable = false, unique = true)
+    @Column(name = "USER_PASSWORD", nullable = false, unique = true)
     private String password;
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
