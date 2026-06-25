@@ -20,7 +20,7 @@ public enum LiteraryGenre {
     THRILLER(11,"Thriller"),
     UTOPIA(12, "Utopia");
 
-    private final int code;
+    private final Integer code;
     private final String description;
 
     public static LiteraryGenre findByDescription(String description) {
