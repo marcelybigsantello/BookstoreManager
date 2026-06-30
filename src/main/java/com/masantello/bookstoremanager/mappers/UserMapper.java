@@ -3,6 +3,7 @@ package com.masantello.bookstoremanager.mappers;
 import com.masantello.bookstoremanager.dtos.UserDto;
 import com.masantello.bookstoremanager.models.User;
 import com.masantello.bookstoremanager.models.enums.Gender;
+import com.masantello.bookstoremanager.models.enums.Role;
 import org.springframework.stereotype.Component;
 
 @Component
