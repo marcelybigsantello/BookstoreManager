@@ -18,6 +18,7 @@ public class UserMapper {
         user.setBirthDate(userDto.getBirthDate());
         user.setUsername(userDto.getUsername());
         user.setPassword(userDto.getPassword());
+        user.setRole(Role.findByDescription(userDto.getRole()));
 
         return user;
     }
@@ -31,6 +32,7 @@ public class UserMapper {
         userDto.setBirthDate(user.getBirthDate());
         userDto.setUsername(user.getUsername());
         userDto.setPassword(user.getPassword());
+        userDto.setRole(Role.convertToDescription(user.getRole()));
 
         return userDto;
     }
