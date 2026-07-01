@@ -1,5 +1,10 @@
 package com.masantello.bookstoremanager.dtos;
 
+import com.masantello.bookstoremanager.models.enums.Role;
+import jakarta.persistence.Column;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -24,5 +29,7 @@ public class UserDto {
     private String username;
 
     private String password;
+
+    private String role;
 
 }

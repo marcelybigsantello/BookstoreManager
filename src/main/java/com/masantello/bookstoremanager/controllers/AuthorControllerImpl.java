@@ -22,7 +22,7 @@ public class AuthorControllerImpl implements AuthorController {
     public ResponseEntity<AuthorDto> create(@RequestBody @Valid AuthorDto authorDto) {
         var author = authorService.create(authorDto);
 
-        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(author.getId()).toUri();
+        var uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(author.getId()).toUri();
         return ResponseEntity.created(uri).build();
     }
 

@@ -10,6 +10,7 @@ import jakarta.persistence.EntityNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -24,23 +25,28 @@ public class UserService {
     private final AbstractValidator<UserDto> createUserValidator;
     private final AbstractValidator<UserDto> updateUserValidator;
 
+    private final PasswordEncoder passwordEncoder;
+
     public UserService(UserRepository userRepository,
                        UserMapper userMapper,
                        @Qualifier("createUserValidator")
                        AbstractValidator<UserDto> createUserValidator,
                        @Qualifier("updateUserValidator")
-                       AbstractValidator<UserDto> updateUserValidator) {
+                       AbstractValidator<UserDto> updateUserValidator,
+                       PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.userMapper = userMapper;
         this.createUserValidator = createUserValidator;
         this.updateUserValidator = updateUserValidator;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public UserDto create(UserDto userDto) {
         //Chain of Responsibilities
         createUserValidator.validate(userDto);
 
-        User user = userMapper.convertToModel(userDto);
+        var user = userMapper.convertToModel(userDto);
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         user = userRepository.save(user);
 
         logger.info("User '{}' created successfully in Book Store Manager.", user.getUsername());
@@ -68,14 +74,14 @@ public class UserService {
         //Chain of Responsibilities
         updateUserValidator.validate(userDto);
 
-        User user = userMapper.convertToModel(userDto);
+        var user = userMapper.convertToModel(userDto);
         user.setId(userDto.getId());
         user.setName(userDto.getName());
         user.setEmail(userDto.getEmail());
         user.setGender(Gender.findByDescription(userDto.getGender()));
         user.setBirthDate(userDto.getBirthDate());
         user.setUsername(userDto.getUsername());
-        user.setPassword(userDto.getPassword());
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
 
         userRepository.save(user);
         logger.info("User {}, Name={} updated successfully!", userDto.getUsername(), user.getName());

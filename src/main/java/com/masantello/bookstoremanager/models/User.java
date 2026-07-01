@@ -1,6 +1,7 @@
 package com.masantello.bookstoremanager.models;
 
 import com.masantello.bookstoremanager.models.enums.Gender;
+import com.masantello.bookstoremanager.models.enums.Role;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -10,7 +11,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 @Entity
-@Table(name = "USER_BOOKSTOREMANAGER")
+@Table(name = "USER_BOOKSTORE")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -43,4 +44,8 @@ public class User {
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     private List<Book> books;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "ROLE_BOOKSTORE", nullable = false, length = 20)
+    private Role role;
 }

@@ -37,7 +37,7 @@ public class PublisherService {
         logger.debug("Validating publisher request's information");
         validatorCreate.validate(publisherDto);
 
-        Publisher publisher = publisherMapper.convertToModel(publisherDto);
+        var publisher = publisherMapper.convertToModel(publisherDto);
         publisher = publisherRepository.save(publisher);
 
         logger.info("Publisher ID={}, Name={} created successfully.", publisher.getId(), publisher.getName());
