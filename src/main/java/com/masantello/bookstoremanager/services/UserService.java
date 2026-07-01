@@ -45,7 +45,7 @@ public class UserService {
         //Chain of Responsibilities
         createUserValidator.validate(userDto);
 
-        User user = userMapper.convertToModel(userDto);
+        var user = userMapper.convertToModel(userDto);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user = userRepository.save(user);
 
@@ -74,7 +74,7 @@ public class UserService {
         //Chain of Responsibilities
         updateUserValidator.validate(userDto);
 
-        User user = userMapper.convertToModel(userDto);
+        var user = userMapper.convertToModel(userDto);
         user.setId(userDto.getId());
         user.setName(userDto.getName());
         user.setEmail(userDto.getEmail());

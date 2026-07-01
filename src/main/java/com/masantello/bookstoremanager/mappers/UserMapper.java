@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 public class UserMapper {
 
     public User convertToModel(UserDto userDto) {
-        User user = new User();
+        var user = new User();
         user.setId(userDto.getId());
         user.setName(userDto.getName());
         user.setEmail(userDto.getEmail());
@@ -24,7 +24,7 @@ public class UserMapper {
     }
 
     public UserDto convertToDto(User user) {
-        UserDto userDto = new UserDto();
+        var userDto = new UserDto();
         userDto.setId(user.getId());
         userDto.setName(user.getName());
         userDto.setEmail(user.getEmail());

@@ -24,7 +24,7 @@ public class PublisherControllerImpl implements PublisherController {
     public ResponseEntity<PublisherDto> create(@RequestBody @Valid PublisherDto publisherDto) {
         var publisher = publisherService.create(publisherDto);
 
-        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(publisher.getId())
+        var uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(publisher.getId())
                 .toUri();
         return ResponseEntity.created(uri).build();
     }

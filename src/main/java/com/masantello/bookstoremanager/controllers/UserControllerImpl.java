@@ -23,9 +23,9 @@ public class UserControllerImpl implements UserController {
     @Override
     @PostMapping
     public ResponseEntity<UserDto> create(UserDto userDto) {
-        UserDto userCreated = userService.create(userDto);
+        var userCreated = userService.create(userDto);
 
-        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(userCreated.getId())
+        var uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(userCreated.getId())
                 .toUri();
         return ResponseEntity.created(uri).build();
     }

@@ -28,7 +28,7 @@ public class UserUniqueFieldsValidator extends AbstractValidator<UserDto> {
         var emailIsNotUnique = userRepository.findByEmail(userDto.getEmail()).isPresent();
         var passwordIsNotUnique = userRepository.findByPassword(userDto.getPassword()).isPresent();
 
-        String errorMessage = "";
+        var errorMessage = "";
 
         if (emailIsNotUnique) {
             logger.error("This email '{}' is already associated with an account.", userDto.getEmail());

@@ -45,7 +45,7 @@ public class AuthorService {
         logger.debug("Validating request's information");
         validatorCreate.validate(authorDto);
 
-        Author author = authorMapper.convertToModel(authorDto);
+        var author = authorMapper.convertToModel(authorDto);
         author = authorRepository.save(author);
 
         logger.info("Author Id={}, Name={} created successfully.", author.getId(), author.getName());
@@ -74,7 +74,7 @@ public class AuthorService {
     public AuthorDto updateById(AuthorDto authorDto) {
         validatorUpdate.validate(authorDto);
 
-        Author authorNewData = authorMapper.convertToModel(authorDto);
+        var authorNewData = authorMapper.convertToModel(authorDto);
 
         authorNewData.setName(authorDto.getName());
         authorNewData.setEmail(authorDto.getEmail());
