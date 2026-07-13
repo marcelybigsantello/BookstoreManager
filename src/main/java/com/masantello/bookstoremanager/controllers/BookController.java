@@ -35,6 +35,13 @@ public interface BookController {
     })
     ResponseEntity<List<BookResponseDto>> findByTitle(@PathVariable String title);
 
+    @ApiOperation(value = "List all books of an author")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Return all books of that author"),
+            @ApiResponse(code = 404, message = "Books of author were not found")
+    })
+    ResponseEntity<List<BookResponseDto>> findAllBookOfAnAuthor(@PathVariable String authorName);
+
     @ApiOperation(value = "Update book's data")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Success book update"),

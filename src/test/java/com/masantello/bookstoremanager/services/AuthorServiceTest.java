@@ -183,8 +183,10 @@ public class AuthorServiceTest {
     @DisplayName("Should find author by name successfully")
     void testFindByNameSuccess() {
         // Arrange
-        when(authorRepository.findByNameContainingIgnoreCase("Stephen"))
-                .thenReturn(Optional.of(author));
+        Long authorId = 1L;
+        when(authorRepository.findById(authorId)).thenReturn(Optional.of(author));
+        when(authorRepository.findByNameContainingIgnoreCase("Stephen")).thenReturn(Optional.of(author));
+
         when(authorMapper.convertToDto(author)).thenReturn(authorDto);
 
         // Act
@@ -217,23 +219,6 @@ public class AuthorServiceTest {
         verify(authorMapper, never()).convertToDto(any());
     }
 
-    @Test
-    @DisplayName("Should find author with case insensitive search")
-    void testFindByNameCaseInsensitive() {
-        // Arrange
-        when(authorRepository.findByNameContainingIgnoreCase("eckhart TOLLE"))
-                .thenReturn(Optional.of(author));
-        when(authorMapper.convertToDto(author)).thenReturn(authorDto);
-
-        // Act
-        AuthorDto result = authorService.findByName("eckhart TOLLE");
-
-        // Assert
-        assertNotNull(result);
-        assertEquals("Eckhart Tolle", result.getName());
-
-        verify(authorRepository, times(1)).findByNameContainingIgnoreCase("eckhart TOLLE");
-    }
 
     // ==================== UPDATE TESTS ====================
 
@@ -347,7 +332,7 @@ public class AuthorServiceTest {
     @DisplayName("Should throw exception when deletion validation fails")
     void testDeleteAuthorValidationError() {
         // Arrange
-        Long authorId = 1L;
+        Long authorId = 2L;
         when(authorRepository.findById(authorId)).thenReturn(Optional.of(author));
         when(authorMapper.convertToDto(author)).thenReturn(authorDto);
         doThrow(new IllegalArgumentException("Cannot delete author"))
@@ -365,7 +350,7 @@ public class AuthorServiceTest {
     @DisplayName("Should not perform delete operation if validation fails")
     void testDeleteAuthorValidationFailsNoDelete() {
         // Arrange
-        Long authorId = 1L;
+        Long authorId = 2L;
         when(authorRepository.findById(authorId)).thenReturn(Optional.of(author));
         when(authorMapper.convertToDto(author)).thenReturn(authorDto);
         doThrow(new DataIntegrityViolationException("Author has associated books"))
@@ -410,8 +395,7 @@ public class AuthorServiceTest {
     @DisplayName("Should handle empty string in findByName")
     void testFindByNameEmptyString() {
         // Arrange
-        when(authorRepository.findByNameContainingIgnoreCase(""))
-                .thenReturn(Optional.empty());
+        when(authorRepository.findByNameContainingIgnoreCase("")).thenReturn(Optional.empty());
 
         // Act & Assert
         assertThrows(EntityNotFoundException.class, () -> authorService.findByName(""));

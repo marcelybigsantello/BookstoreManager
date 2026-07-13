@@ -13,6 +13,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -56,7 +57,10 @@ public class AuthorService {
     public List<AuthorDto> findAll() {
         var authors = authorRepository.findAll();
 
-        return authors.stream().map(authorMapper::convertToDto).collect(Collectors.toList());
+        return authors.stream()
+                .map(authorMapper::convertToDto)
+                .sorted(Comparator.comparing(AuthorDto::getId))
+                .collect(Collectors.toList());
     }
 
     public AuthorDto findByName(String authorName) {

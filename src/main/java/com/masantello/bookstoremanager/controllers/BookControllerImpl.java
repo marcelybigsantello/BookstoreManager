@@ -23,7 +23,7 @@ public class BookControllerImpl implements BookController {
 
     @PostMapping
     public ResponseEntity<BookResponseDto> create(@RequestBody @Valid BookDto bookDto) {
-        BookResponseDto book = bookService.create(bookDto);
+        var book = bookService.create(bookDto);
 
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(bookDto.getId()).toUri();
         return ResponseEntity.ok().body(book);
@@ -31,7 +31,7 @@ public class BookControllerImpl implements BookController {
 
     @GetMapping
     public ResponseEntity<List<BookResponseDto>> findAll() {
-        List<BookResponseDto> books = bookService.findAll();
+        var books = bookService.findAll();
 
         return ResponseEntity.ok().body(books);
     }
@@ -39,6 +39,13 @@ public class BookControllerImpl implements BookController {
     @GetMapping(value = "/{title}")
     public ResponseEntity<List<BookResponseDto>> findByTitle(@PathVariable String title) {
         var books = bookService.findByTitle(title);
+
+        return ResponseEntity.ok().body(books);
+    }
+
+    @GetMapping(value = "author/{authorName}")
+    public ResponseEntity<List<BookResponseDto>> findAllBookOfAnAuthor(@PathVariable String authorName) {
+        var books = bookService.findBooksOfAnAuthor(authorName);
 
         return ResponseEntity.ok().body(books);
     }
