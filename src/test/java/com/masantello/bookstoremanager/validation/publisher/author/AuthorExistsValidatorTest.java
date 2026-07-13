@@ -131,7 +131,7 @@ public class AuthorExistsValidatorTest {
                 () -> validator.validate(authorDto)
         );
 
-        assertEquals("Author  not found in database", exception.getMessage());
+        assertEquals("Author not found in database", exception.getMessage());
         verify(authorRepository, times(1)).findByNameContainingIgnoreCase("");
     }
 

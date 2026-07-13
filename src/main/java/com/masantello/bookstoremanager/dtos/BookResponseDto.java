@@ -1,5 +1,7 @@
 package com.masantello.bookstoremanager.dtos;
 
+import com.masantello.bookstoremanager.models.Author;
+import com.masantello.bookstoremanager.models.Publisher;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

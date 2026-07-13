@@ -13,7 +13,7 @@ public class AuthorExistsValidator extends AbstractValidator<AuthorDto> {
 
     private static final Logger logger = LoggerFactory.getLogger(AuthorExistsValidator.class);
 
-    private static final String AUTHOR_NOT_FOUND = "Author %s not found in database";
+    private static final String AUTHOR_NOT_FOUND = "Author '%s' not found in database";
     private final AuthorRepository authorRepository;
 
     public AuthorExistsValidator(AuthorRepository authorRepository) {
@@ -23,7 +23,7 @@ public class AuthorExistsValidator extends AbstractValidator<AuthorDto> {
     @Override
     public AuthorDto validate(AuthorDto authorDto) {
 
-        if (authorRepository.findByNameContainingIgnoreCase(authorDto.getName()).isEmpty()) {
+        if (authorRepository.findById(authorDto.getId()).isEmpty()) {
             var errorMessage = String.format(AUTHOR_NOT_FOUND, authorDto.getName());
             throw new EntityNotFoundException(errorMessage);
         }

@@ -7,6 +7,7 @@ import com.masantello.bookstoremanager.models.Book;
 import com.masantello.bookstoremanager.repositories.BookRepository;
 import com.masantello.bookstoremanager.validation.AbstractValidator;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.persistence.NoResultException;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -64,8 +65,10 @@ public class BookService {
 
     public List<BookResponseDto> findAll() {
         var books = bookRepository.findAll();
-        return books.stream().map(bookMapper::convertToResponseDto)
-                .sorted(Comparator.comparing(BookResponseDto::getId)).toList();
+        return books.stream()
+                .map(bookMapper::convertToResponseDto)
+                .sorted(Comparator.comparing(BookResponseDto::getId))
+                .toList();
     }
 
     public List<BookResponseDto> findByTitle(String title) {
@@ -86,6 +89,21 @@ public class BookService {
                 .filter(books1 -> collator.compare(books1.getTitle(), title) != 0)
                 .map(bookMapper::convertToResponseDto)
                 .collect(Collectors.toList());
+    }
+
+    public List<BookResponseDto> findBooksOfAnAuthor(String authorName) {
+        var books = bookRepository.findAllBooksByAuthor(authorName);
+
+        if (books.isEmpty()) {
+            var errorMessage = String.format("It was not possible to find books of author '%s'", authorName);
+            logger.error(errorMessage);
+            throw new NoResultException(errorMessage);
+        }
+
+        return books.stream()
+                .map(bookMapper::convertToResponseDto)
+                .sorted(Comparator.comparing(BookResponseDto::getId))
+                .toList();
     }
 
     public BookResponseDto update(@Valid BookDto bookDto) {
@@ -122,4 +140,6 @@ public class BookService {
             throw new EntityNotFoundException(errorMessage);
         });
     }
+
+
 }
