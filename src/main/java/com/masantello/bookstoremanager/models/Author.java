@@ -38,7 +38,7 @@ public class Author {
     @Column(name = "LITERARY_GENRE", nullable = false)
     private LiteraryGenre literaryGenre;
 
-    @OneToMany(mappedBy = "author", fetch = FetchType.LAZY) //Toda vez que se efetuar uma consulta de author, por padrão, não virá os dados de livros junto
+    @OneToMany(mappedBy = "author", fetch = FetchType.EAGER) //Toda vez que se efetuar uma consulta de author, por padrão, não virá os dados de livros junto
     private List<Book> books;
 
 }

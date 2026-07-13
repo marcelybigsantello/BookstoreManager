@@ -6,6 +6,7 @@ import com.masantello.bookstoremanager.models.Publisher;
 import com.masantello.bookstoremanager.repositories.PublisherRepository;
 import com.masantello.bookstoremanager.validation.AbstractValidator;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.validation.constraints.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -77,4 +78,16 @@ public class PublisherService {
         });
     }
 
+    public Publisher findById(@NotNull Long publisherId) {
+        return publisherRepository.findById(publisherId)
+                .map(publisher -> {
+                    logger.info("Publisher ID={}, Name={} found in database", publisher.getId(), publisher.getName());
+                    return publisher;
+                })
+                .orElseThrow(() -> {
+                    var errorMessage = String.format("Publisher ID={%s} was not found in database.", publisherId);
+                    logger.error(errorMessage);
+                    return new EntityNotFoundException(errorMessage);
+                });
+    }
 }

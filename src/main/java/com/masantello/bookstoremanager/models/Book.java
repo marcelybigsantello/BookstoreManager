@@ -8,14 +8,15 @@ import lombok.NoArgsConstructor;
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "Book")
+@Table(name = "BOOK")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class Book {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "book_sequence")
+    @SequenceGenerator(name = "book_sequence", sequenceName = "S_BOOK", allocationSize = 1)
     @Column(name = "BOOK_ID")
     private Long id;
 
@@ -32,11 +33,14 @@ public class Book {
     private LocalDate releaseDate;
 
     @ManyToOne(cascade = {CascadeType.MERGE})
+    @JoinColumn(name = "AUTHOR_ID")
     private Author author;
 
     @ManyToOne(cascade = {CascadeType.MERGE})
+    @JoinColumn(name = "PUBLISHER_ID")
     private Publisher publisher;
 
     @ManyToOne(cascade = {CascadeType.MERGE})
+    @JoinColumn(name = "USER_ID")
     private User user;
 }

@@ -1,6 +1,7 @@
 package com.masantello.bookstoremanager.repositories;
 
 import com.masantello.bookstoremanager.models.Book;
+import com.masantello.bookstoremanager.models.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -36,4 +37,9 @@ public interface BookRepository extends JpaRepository<Book, Long> {
         WHERE P.NAME = :publisherName
     """, nativeQuery = true)
     Optional<List<Book>> findAllBooksByPublisher(@Param("publisherName") String publisherName);
+
+    Optional<Book> findByTitle(String title);
+
+    List<Book> findByTitleContainingIgnoreCase(String title);
+
 }
