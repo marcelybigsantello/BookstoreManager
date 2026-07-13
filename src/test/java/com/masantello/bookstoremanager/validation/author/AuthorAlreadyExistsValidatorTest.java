@@ -1,4 +1,4 @@
-package com.masantello.bookstoremanager.validation.publisher.author;
+package com.masantello.bookstoremanager.validation.author;
 
 import com.masantello.bookstoremanager.dtos.AuthorDto;
 import com.masantello.bookstoremanager.models.Author;
