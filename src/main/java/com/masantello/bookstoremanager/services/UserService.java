@@ -10,7 +10,6 @@ import jakarta.persistence.EntityNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -25,20 +24,16 @@ public class UserService {
     private final AbstractValidator<UserDto> createUserValidator;
     private final AbstractValidator<UserDto> updateUserValidator;
 
-    private final PasswordEncoder passwordEncoder;
-
     public UserService(UserRepository userRepository,
                        UserMapper userMapper,
                        @Qualifier("createUserValidator")
                        AbstractValidator<UserDto> createUserValidator,
                        @Qualifier("updateUserValidator")
-                       AbstractValidator<UserDto> updateUserValidator,
-                       PasswordEncoder passwordEncoder) {
+                       AbstractValidator<UserDto> updateUserValidator) {
         this.userRepository = userRepository;
         this.userMapper = userMapper;
         this.createUserValidator = createUserValidator;
         this.updateUserValidator = updateUserValidator;
-        this.passwordEncoder = passwordEncoder;
     }
 
     public UserDto create(UserDto userDto) {
@@ -46,7 +41,7 @@ public class UserService {
         createUserValidator.validate(userDto);
 
         var user = userMapper.convertToModel(userDto);
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setPassword(user.getPassword());
         user = userRepository.save(user);
 
         logger.info("User '{}' created successfully in Book Store Manager.", user.getUsername());
@@ -81,7 +76,7 @@ public class UserService {
         user.setGender(Gender.findByDescription(userDto.getGender()));
         user.setBirthDate(userDto.getBirthDate());
         user.setUsername(userDto.getUsername());
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setPassword(user.getPassword());
 
         userRepository.save(user);
         logger.info("User {}, Name={} updated successfully!", userDto.getUsername(), user.getName());
@@ -98,5 +93,10 @@ public class UserService {
             throw new EntityNotFoundException(errorMessage);
         });
 
+    }
+
+    public User verifyAndGetUserIfExists(String username) {
+        return userRepository.findByUsername(username)
+                .orElseThrow(() -> new EntityNotFoundException(username));
     }
 }

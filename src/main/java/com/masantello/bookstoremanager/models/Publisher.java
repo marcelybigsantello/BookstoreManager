@@ -33,7 +33,7 @@ public class Publisher {
     @Column(name = "FOUNDATION_DATE", nullable = false, columnDefinition = "TIMESTAMP")
     private LocalDate foundationDate;
 
-    @OneToMany(mappedBy = "publisher", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "publisher", fetch = FetchType.EAGER)
     private List<Book> books;
 
 }

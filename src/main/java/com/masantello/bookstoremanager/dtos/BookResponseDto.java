@@ -9,22 +9,19 @@ import java.time.LocalDate;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserDto {
+public class BookResponseDto {
 
     private Long id;
 
-    private String name;
+    private String title;
 
-    private String email;
+    private String isbn;
 
-    private LocalDate birthDate;
+    private Integer pages;
 
-    private String gender;
+    private LocalDate releaseDate;
 
-    private String username;
+    private Long author;
 
-    private String password;
-
-    private String role;
-
+    private Long publisher;
 }

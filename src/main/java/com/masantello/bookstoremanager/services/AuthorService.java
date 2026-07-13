@@ -7,6 +7,7 @@ import com.masantello.bookstoremanager.models.enums.LiteraryGenre;
 import com.masantello.bookstoremanager.repositories.AuthorRepository;
 import com.masantello.bookstoremanager.validation.AbstractValidator;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.validation.constraints.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -99,5 +100,18 @@ public class AuthorService {
             throw new EntityNotFoundException(errorMessage);
         });
 
+    }
+
+    public Author findById(@NotNull Long authorId) {
+        return authorRepository.findById(authorId)
+                .map(author -> {
+                    logger.info("Author ID='{}', Name='{}' found in database.", author.getId(), author.getName());
+                    return author;
+                })
+                .orElseThrow(() -> {
+                    var errorMessage = String.format("Author ID={%s} was not found in database.", authorId);
+                    logger.error(errorMessage);
+                    return new EntityNotFoundException(errorMessage);
+                });
     }
 }
