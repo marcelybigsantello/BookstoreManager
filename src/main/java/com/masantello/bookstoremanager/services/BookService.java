@@ -80,7 +80,7 @@ public class BookService {
 
         if (books.isEmpty()) {
             var errorMessage = String.format("Book with title '%s' were not found. ", title);
-            logger.error(errorMessage);
+            logger.warn(errorMessage);
             throw new EntityNotFoundException(errorMessage);
         }
 
@@ -96,8 +96,23 @@ public class BookService {
 
         if (books.isEmpty()) {
             var errorMessage = String.format("It was not possible to find books of author '%s'", authorName);
+            logger.warn(errorMessage);
+            return List.of();
+        }
+
+        return books.stream()
+                .map(bookMapper::convertToResponseDto)
+                .sorted(Comparator.comparing(BookResponseDto::getId))
+                .toList();
+    }
+
+    public List<BookResponseDto> findBookOfAPublisher(String publisherName) {
+        var books = bookRepository.findAllBooksByPublisher(publisherName);
+
+        if (books.isEmpty()) {
+            var errorMessage = String.format("It was not possible to find books of publisher '%s'", publisherName);
             logger.error(errorMessage);
-            throw new NoResultException(errorMessage);
+            return List.of();
         }
 
         return books.stream()
@@ -140,6 +155,5 @@ public class BookService {
             throw new EntityNotFoundException(errorMessage);
         });
     }
-
 
 }

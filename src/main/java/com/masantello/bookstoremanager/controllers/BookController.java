@@ -40,7 +40,14 @@ public interface BookController {
             @ApiResponse(code = 200, message = "Return all books of that author"),
             @ApiResponse(code = 404, message = "Books of author were not found")
     })
-    ResponseEntity<List<BookResponseDto>> findAllBookOfAnAuthor(@PathVariable String authorName);
+    ResponseEntity<List<BookResponseDto>> findBooksOfAnAuthor(@PathVariable String authorName);
+
+    @ApiOperation(value = "List all books of a publisher")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Return all books of that publisher"),
+            @ApiResponse(code = 404, message = "Books of publisher were not found")
+    })
+    ResponseEntity<List<BookResponseDto>> findBooksOfPublisher(@PathVariable String publisherName);
 
     @ApiOperation(value = "Update book's data")
     @ApiResponses(value = {
