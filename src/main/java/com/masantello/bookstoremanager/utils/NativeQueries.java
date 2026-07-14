@@ -13,4 +13,14 @@ public class NativeQueries {
             UPPER(A.AUTHOR_NAME) LIKE UPPER('%' || :authorName || '%')
         """;
 
+    public static final String FIND_ALL_BOOKS_OF_A_PUBLISHER = """
+            SELECT
+                P.PUBLISHER_NAME,
+                B.*
+            FROM
+                BOOK      B
+                LEFT JOIN PUBLISHER P ON B.PUBLISHER_ID = P.PUBLISHER_ID
+            WHERE
+                UPPER(P.PUBLISHER_NAME) LIKE UPPER('%' || :publisherName || '%')
+            """;
 }

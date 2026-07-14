@@ -44,8 +44,15 @@ public class BookControllerImpl implements BookController {
     }
 
     @GetMapping(value = "author/{authorName}")
-    public ResponseEntity<List<BookResponseDto>> findAllBookOfAnAuthor(@PathVariable String authorName) {
+    public ResponseEntity<List<BookResponseDto>> findBooksOfAnAuthor(@PathVariable String authorName) {
         var books = bookService.findBooksOfAnAuthor(authorName);
+
+        return ResponseEntity.ok().body(books);
+    }
+
+    @GetMapping(value = "publisher/{publisherName}")
+    public ResponseEntity<List<BookResponseDto>> findBooksOfPublisher(@PathVariable String publisherName) {
+        var books = bookService.findBookOfAPublisher(publisherName);
 
         return ResponseEntity.ok().body(books);
     }
