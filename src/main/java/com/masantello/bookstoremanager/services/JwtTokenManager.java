@@ -21,7 +21,7 @@ public class JwtTokenManager {
     private final String secret;
 
     public JwtTokenManager(
-            @Value("${jwt.validtiy}") Long jwtTokenValidity, 
+            @Value("${jwt.validity}") Long jwtTokenValidity,
             @Value("${jwt.secret}") String secret) {
         this.jwtTokenValidity = jwtTokenValidity;
         this.secret = secret;
