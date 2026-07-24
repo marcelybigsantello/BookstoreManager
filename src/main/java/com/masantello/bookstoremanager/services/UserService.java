@@ -10,8 +10,10 @@ import jakarta.persistence.EntityNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Comparator;
 import java.util.List;
 
 @Service
@@ -23,17 +25,20 @@ public class UserService {
     private final UserMapper userMapper;
     private final AbstractValidator<UserDto> createUserValidator;
     private final AbstractValidator<UserDto> updateUserValidator;
+    private final PasswordEncoder passwordEncoder;
 
     public UserService(UserRepository userRepository,
                        UserMapper userMapper,
                        @Qualifier("createUserValidator")
                        AbstractValidator<UserDto> createUserValidator,
                        @Qualifier("updateUserValidator")
-                       AbstractValidator<UserDto> updateUserValidator) {
+                       AbstractValidator<UserDto> updateUserValidator,
+                       PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.userMapper = userMapper;
         this.createUserValidator = createUserValidator;
         this.updateUserValidator = updateUserValidator;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public UserDto create(UserDto userDto) {
@@ -41,7 +46,7 @@ public class UserService {
         createUserValidator.validate(userDto);
 
         var user = userMapper.convertToModel(userDto);
-        user.setPassword(user.getPassword());
+        user.setPassword(passwordEncoder.encode(userDto.getPassword()));
         user = userRepository.save(user);
 
         logger.info("User '{}' created successfully in Book Store Manager.", user.getUsername());
@@ -50,7 +55,7 @@ public class UserService {
 
     public List<UserDto> findAll() {
         var users = userRepository.findAll();
-        return users.stream().map(userMapper::convertToDto).toList();
+        return users.stream().map(userMapper::convertToDto).sorted(Comparator.comparing(UserDto::getId)).toList();
     }
 
     public List<UserDto> findByUsername(String userName) {
@@ -76,7 +81,7 @@ public class UserService {
         user.setGender(Gender.findByDescription(userDto.getGender()));
         user.setBirthDate(userDto.getBirthDate());
         user.setUsername(userDto.getUsername());
-        user.setPassword(user.getPassword());
+        user.setPassword(passwordEncoder.encode(userDto.getPassword()));
 
         userRepository.save(user);
         logger.info("User {}, Name={} updated successfully!", userDto.getUsername(), user.getName());

@@ -1,13 +1,15 @@
 package com.masantello.bookstoremanager.controllers;
 
+import com.masantello.bookstoremanager.dtos.JwtRequest;
+import com.masantello.bookstoremanager.dtos.JwtResponse;
 import com.masantello.bookstoremanager.dtos.UserDto;
+import com.masantello.bookstoremanager.services.AuthenticationService;
 import com.masantello.bookstoremanager.services.UserService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -15,9 +17,12 @@ import java.util.List;
 public class UserControllerImpl implements UserController {
 
     private final UserService userService;
+    private final AuthenticationService authenticationService;
 
-    public UserControllerImpl(UserService userService) {
+    public UserControllerImpl(UserService userService,
+                              AuthenticationService authenticationService) {
         this.userService = userService;
+        this.authenticationService = authenticationService;
     }
 
     @Override
@@ -61,5 +66,10 @@ public class UserControllerImpl implements UserController {
         userService.delete(userId);
 
         return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping(value = "/authenticate")
+    public JwtResponse createAuthenticationToken(@RequestBody @Valid JwtRequest jwtRequest) {
+        return authenticationService.createAuthenticationToken(jwtRequest);
     }
 }

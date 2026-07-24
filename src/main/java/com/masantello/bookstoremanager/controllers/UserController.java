@@ -1,10 +1,13 @@
 package com.masantello.bookstoremanager.controllers;
 
+import com.masantello.bookstoremanager.dtos.JwtRequest;
+import com.masantello.bookstoremanager.dtos.JwtResponse;
 import com.masantello.bookstoremanager.dtos.UserDto;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -47,4 +50,11 @@ public interface UserController {
             @ApiResponse(code = 404, message = "User not found error code")
     })
     ResponseEntity<Void> delete(@PathVariable Long userId);
+
+    @ApiOperation(value = "User authentication operation")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Success user authenticated"),
+            @ApiResponse(code = 404, message = "User not found")
+    })
+    JwtResponse createAuthenticationToken(JwtRequest jwtRequest);
 }
