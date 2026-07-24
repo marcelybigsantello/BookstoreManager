@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Comparator;
 import java.util.List;
 
 @Service
@@ -54,7 +55,7 @@ public class UserService {
 
     public List<UserDto> findAll() {
         var users = userRepository.findAll();
-        return users.stream().map(userMapper::convertToDto).toList();
+        return users.stream().map(userMapper::convertToDto).sorted(Comparator.comparing(UserDto::getId)).toList();
     }
 
     public List<UserDto> findByUsername(String userName) {

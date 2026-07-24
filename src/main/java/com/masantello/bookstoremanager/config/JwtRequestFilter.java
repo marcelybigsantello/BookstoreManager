@@ -58,7 +58,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
     }
 
     private boolean isUsernameInContext(String username) {
-        return username != null && SecurityContextHolder.getContext().getAuthentication() == null;
+        return username != null && !username.isBlank() && SecurityContextHolder.getContext().getAuthentication() == null;
     }
 
     private void addUsernameInContext(HttpServletRequest request, String username, String jwtToken) {

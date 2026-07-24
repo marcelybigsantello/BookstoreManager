@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
+import javax.crypto.SecretKey;
 import java.nio.charset.StandardCharsets;
 import java.time.Instant;
 import java.util.Date;
@@ -14,23 +15,22 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
+import static io.jsonwebtoken.Jwts.SIG.HS256;
+
 @Service
 public class JwtTokenManager {
 
     private final long jwtTokenValidity;
-    private final String secret;
+    private final SecretKey key;
 
     public JwtTokenManager(
-            @Value("${jwt.validity}") Long jwtTokenValidity,
-            @Value("${jwt.secret}") String secret) {
+            @Value("${jwt.validity}") Long jwtTokenValidity) {
         this.jwtTokenValidity = jwtTokenValidity;
-        this.secret = secret;
+        this.key = HS256.key().build();
     }
 
     public String generateToken(UserDetails userDetails) {
         Map<String, Object> claims = new HashMap<>();
-
-        var key = Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));
 
         return Jwts.builder()
                 .claims(claims)
@@ -50,7 +50,6 @@ public class JwtTokenManager {
     }
 
     private <T> T getClaimsForToken(String token, Function<Claims, T> claimsResolver) {
-        var key = Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));
         var claims = Jwts.parser().verifyWith(key).build().parseSignedClaims(token).getPayload();
         return claimsResolver.apply(claims);
     }

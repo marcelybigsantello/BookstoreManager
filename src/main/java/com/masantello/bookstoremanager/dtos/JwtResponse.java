@@ -1,12 +1,9 @@
 package com.masantello.bookstoremanager.dtos;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Builder;
 
-@Getter
-@AllArgsConstructor
-public class JwtResponse {
+@Builder
+public record JwtResponse(String jwtToken) {
 
-    private final String jwtToken;
 }
 
