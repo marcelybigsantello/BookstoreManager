@@ -1,5 +1,6 @@
 package com.masantello.bookstoremanager.dtos;
 
+import com.masantello.bookstoremanager.models.Publisher;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -21,7 +22,7 @@ public class BookResponseDto {
 
     private LocalDate releaseDate;
 
-    private Long author;
+    private AuthorResponseDto author;
 
-    private Long publisher;
+    private PublisherResponseDto publisher;
 }

@@ -1,5 +1,6 @@
 package com.masantello.bookstoremanager.controllers;
 
+import com.masantello.bookstoremanager.dtos.AuthenticatedUser;
 import com.masantello.bookstoremanager.dtos.BookDto;
 import com.masantello.bookstoremanager.dtos.BookResponseDto;
 import io.swagger.annotations.Api;
@@ -20,7 +21,7 @@ public interface BookController {
             @ApiResponse(code = 201, message = "Success book creation"),
             @ApiResponse(code = 400, message = "Missing required fields, wrong field range value or book already registered")
     })
-    ResponseEntity<BookResponseDto> create(@RequestBody BookDto bookDto);
+    ResponseEntity<BookResponseDto> create(@RequestBody BookDto bookDto, AuthenticatedUser authenticatedUser);
 
     @ApiOperation(value = "List all books operation")
     @ApiResponses(value = {

@@ -1,5 +1,7 @@
 package com.masantello.bookstoremanager.dtos;
 
+import com.masantello.bookstoremanager.models.Author;
+import com.masantello.bookstoremanager.models.Publisher;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
@@ -27,9 +29,9 @@ public class BookDto {
     private LocalDate releaseDate;
 
     @NotNull
-    private Long authorId;
+    private Author author;
 
     @NotNull
-    private Long publisherId;
+    private Publisher publisher;
 
 }

@@ -1,6 +1,7 @@
 package com.masantello.bookstoremanager.mappers;
 
 import com.masantello.bookstoremanager.dtos.AuthorDto;
+import com.masantello.bookstoremanager.dtos.AuthorResponseDto;
 import com.masantello.bookstoremanager.models.Author;
 import com.masantello.bookstoremanager.models.enums.LiteraryGenre;
 import org.springframework.stereotype.Component;
@@ -28,5 +29,12 @@ public class AuthorMapper {
         authorDto.setBirthDate(author.getBirthDate());
         authorDto.setLiteraryGenre(LiteraryGenre.convertToDescription(author.getLiteraryGenre()));
         return authorDto;
+    }
+
+    public static AuthorResponseDto convertToResponseDto(Author author) {
+        var authorResponseDto = new AuthorResponseDto();
+        authorResponseDto.setName(author.getName());
+        authorResponseDto.setLiteraryGenre(LiteraryGenre.convertToDescription(author.getLiteraryGenre()));
+        return authorResponseDto;
     }
 }

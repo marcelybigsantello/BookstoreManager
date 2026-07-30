@@ -1,10 +1,12 @@
 package com.masantello.bookstoremanager.controllers;
 
+import com.masantello.bookstoremanager.dtos.AuthenticatedUser;
 import com.masantello.bookstoremanager.dtos.BookDto;
 import com.masantello.bookstoremanager.dtos.BookResponseDto;
 import com.masantello.bookstoremanager.services.BookService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -22,11 +24,12 @@ public class BookControllerImpl implements BookController {
     }
 
     @PostMapping
-    public ResponseEntity<BookResponseDto> create(@RequestBody @Valid BookDto bookDto) {
-        var book = bookService.create(bookDto);
+    public ResponseEntity<BookResponseDto> create(@RequestBody @Valid BookDto bookDto,
+                                                  @AuthenticationPrincipal AuthenticatedUser authenticatedUser) {
+        var book = bookService.create(bookDto, authenticatedUser);
 
-        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(bookDto.getId()).toUri();
-        return ResponseEntity.ok().body(book);
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(book.getId()).toUri();
+        return ResponseEntity.created(uri).build();
     }
 
     @GetMapping
