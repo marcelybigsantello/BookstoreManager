@@ -35,8 +35,8 @@ public class BookMapper {
         bookResponseDto.setIsbn(book.getIsbn());
         bookResponseDto.setPages(book.getPages());
         bookResponseDto.setReleaseDate(book.getReleaseDate());
-        bookResponseDto.setAuthor(book.getAuthor().getId());
-        bookResponseDto.setPublisher(book.getPublisher().getId());
+        bookResponseDto.setAuthor(AuthorMapper.convertToResponseDto(book.getAuthor()));
+        bookResponseDto.setPublisher(PublisherMapper.convertToResponseDto(book.getPublisher()));
 
         return bookResponseDto;
     }

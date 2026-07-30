@@ -1,6 +1,7 @@
 package com.masantello.bookstoremanager.mappers;
 
 import com.masantello.bookstoremanager.dtos.PublisherDto;
+import com.masantello.bookstoremanager.dtos.PublisherResponseDto;
 import com.masantello.bookstoremanager.models.Publisher;
 import org.springframework.stereotype.Component;
 
@@ -27,5 +28,12 @@ public class PublisherMapper {
         publisherDto.setFoundationDate(publisher.getFoundationDate());
 
         return publisherDto;
+    }
+
+    public static PublisherResponseDto convertToResponseDto(Publisher publisher) {
+        var publisherResponseDto = new PublisherResponseDto();
+        publisherResponseDto.setId(publisher.getId());
+        publisherResponseDto.setName(publisher.getName());
+        return publisherResponseDto;
     }
 }
