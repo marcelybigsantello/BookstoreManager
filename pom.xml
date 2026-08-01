@@ -184,6 +184,7 @@
                                 <exclude>com/masantello/bookstoremanager/BookstoremanagerApplication.class</exclude>
                                 <exclude>com/masantello/bookstoremanager/exceptions/**/*</exclude>
                                 <exclude>com/masantello/bookstoremanager/dtos/**/*</exclude>
+                                <exclude>com/masantello/bookstoremanager/validation/AbstractValidator.class</exclude>
                             </excludes>
                         </configuration>
                     </execution>

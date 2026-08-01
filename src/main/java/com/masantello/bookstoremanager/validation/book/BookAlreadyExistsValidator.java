@@ -18,11 +18,14 @@ public class BookAlreadyExistsValidator extends AbstractValidator<BookDto> {
     public BookAlreadyExistsValidator(BookRepository bookRepository) {
         this.bookRepository = bookRepository;
     }
+
     @Override
     public BookDto validate(BookDto bookDto) {
 
-        if (bookRepository.findByTitle(bookDto.getTitle()).isPresent()) {
-            var errorMessage = String.format("This book '%s', ISBN='%s' already exists.", bookDto.getTitle(),
+        if (bookRepository.findById(bookDto.getId()).isPresent()) {
+            var errorMessage = String.format("This book ID='%s', title='%s', ISBN='%s' already exists.",
+                    bookDto.getId(),
+                    bookDto.getTitle(),
                     bookDto.getIsbn());
             logger.error(errorMessage);
             throw new EntityExistsException(errorMessage);

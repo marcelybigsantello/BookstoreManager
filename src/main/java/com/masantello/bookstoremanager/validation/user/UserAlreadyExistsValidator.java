@@ -22,7 +22,7 @@ public class UserAlreadyExistsValidator extends AbstractValidator<UserDto> {
     @Override
     public UserDto validate(UserDto userDto) {
 
-        if (!userRepository.findByUsernameContainingIgnoreCase(userDto.getUsername()).isEmpty()) {
+        if (userRepository.findById(userDto.getId()).isPresent()) {
             logger.error("This username '{}' already exists. You should try another one.", userDto.getUsername());
             var errorMessage = String.format("This username %s already exists. ", userDto.getUsername());
             throw new EntityExistsException(errorMessage);

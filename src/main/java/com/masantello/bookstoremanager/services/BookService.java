@@ -1,5 +1,6 @@
 package com.masantello.bookstoremanager.services;
 
+import com.masantello.bookstoremanager.dtos.AuthenticatedUser;
 import com.masantello.bookstoremanager.dtos.BookDto;
 import com.masantello.bookstoremanager.dtos.BookResponseDto;
 import com.masantello.bookstoremanager.mappers.BookMapper;
@@ -7,7 +8,6 @@ import com.masantello.bookstoremanager.models.Book;
 import com.masantello.bookstoremanager.repositories.BookRepository;
 import com.masantello.bookstoremanager.validation.AbstractValidator;
 import jakarta.persistence.EntityNotFoundException;
-import jakarta.persistence.NoResultException;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -44,16 +44,16 @@ public class BookService {
         this.createBookValidator = createBookValidator;
     }
 
-    public BookResponseDto create(@Valid BookDto bookDto) {
+    public BookResponseDto create(@Valid BookDto bookDto, AuthenticatedUser authenticatedUser) {
         //Chain of Responsibilities
         createBookValidator.validate(bookDto);
 
-        //var foundUser = userService.verifyAndGetUserIfExists(authenticatedUser.getUsername());
-        var foundAuthor = authorService.findById(bookDto.getAuthorId());
-        var foundPublisher = publisherService.findById(bookDto.getPublisherId());
+        var foundUser = userService.findByLoggedUsername(authenticatedUser.getUsername());
+        var foundAuthor = authorService.findById(bookDto.getAuthor().getId());
+        var foundPublisher = publisherService.findById(bookDto.getPublisher().getId());
 
         var book = bookMapper.convertToModel(bookDto);
-        //book.setUser(foundUser);
+        book.setUser(foundUser);
         book.setAuthor(foundAuthor);
         book.setPublisher(foundPublisher);
 
@@ -124,15 +124,14 @@ public class BookService {
     public BookResponseDto update(@Valid BookDto bookDto) {
 
         var bookNewData = new Book();
-        bookNewData.setId(bookDto.getId());
         bookNewData.setTitle(bookDto.getTitle());
         bookNewData.setIsbn(bookDto.getIsbn());
         bookNewData.setPages(bookDto.getPages());
         bookNewData.setReleaseDate(bookDto.getReleaseDate());
 
-        var foundAuthor = authorService.findById(bookDto.getAuthorId());
+        var foundAuthor = authorService.findById(bookDto.getAuthor().getId());
         bookNewData.setAuthor(foundAuthor);
-        var foundPublisher = publisherService.findById(bookDto.getPublisherId());
+        var foundPublisher = publisherService.findById(bookDto.getPublisher().getId());
         bookNewData.setPublisher(foundPublisher);
 
         bookRepository.save(bookNewData);

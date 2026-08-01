@@ -104,4 +104,17 @@ public class UserService {
         return userRepository.findByUsername(username)
                 .orElseThrow(() -> new EntityNotFoundException(username));
     }
+
+    public User findByLoggedUsername(String username) {
+        return userRepository.findByUsername(username)
+                .map(user -> {
+                    logger.info("User with username='{}' found.", username);
+                    return user;
+                })
+                .orElseThrow(() -> {
+                    var errorMessage = String.format("User with username='%s' not found in database.", username);
+                    logger.error(errorMessage);
+                    return new EntityNotFoundException(errorMessage);
+                });
+    }
 }
