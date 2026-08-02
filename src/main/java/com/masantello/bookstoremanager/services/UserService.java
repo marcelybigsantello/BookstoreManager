@@ -63,6 +63,7 @@ public class UserService {
 
         if (usersByUsername.isEmpty()) {
             logger.info("The given username {} was not found in database. You should try another one.", userName);
+            return List.of();
         }
 
         logger.info("{} user(s) containing the {} username were found in database.", usersByUsername.size(), userName);
@@ -98,11 +99,6 @@ public class UserService {
             throw new EntityNotFoundException(errorMessage);
         });
 
-    }
-
-    public User verifyAndGetUserIfExists(String username) {
-        return userRepository.findByUsername(username)
-                .orElseThrow(() -> new EntityNotFoundException(username));
     }
 
     public User findByLoggedUsername(String username) {
