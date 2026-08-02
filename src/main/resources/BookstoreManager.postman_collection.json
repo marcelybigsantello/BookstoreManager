@@ -1,0 +1,720 @@
+{
+  "info": {
+    "_postman_id": "691543c4-01c9-40bf-bf1a-83a116e28da9",
+    "name": "Bookstore Manager",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "30656390"
+  },
+  "item": [
+    {
+      "name": "User",
+      "item": [
+        {
+          "name": "Insert new User",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"name\": \"Teste02\",\r\n    \"email\": \"teste02@gmail.com\",\r\n    \"birthDate\": \"1995-10-28\",\r\n    \"gender\": \"Male\",\r\n    \"username\": \"teste02\",\r\n    \"password\": \"1234\",\r\n    \"role\": \"Admin\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8080/api/v1/users",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "v1",
+                "users"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Retrieve All Users",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8080/api/v1/users",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "v1",
+                "users"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Retrieve User by Username",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/api/v1/users/guilherme",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "v1",
+                "users",
+                "guilherme"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update User Data",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"name\": \"teste UPDATE\",\r\n    \"email\": \"teste@example.com\",\r\n    \"birthDate\": \"1998-08-20\",\r\n    \"gender\": \"Female\",\r\n    \"username\": \"teste\",\r\n    \"password\": \"TESTANDO\",\r\n    \"role\": \"Common\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8080/api/v1/users/2",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "v1",
+                "users",
+                "2"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Existing User",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": ""
+            },
+            "url": {
+              "raw": "http://localhost:8080/api/v1/users/7",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "v1",
+                "users",
+                "7"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Authenticate User",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"username\": \"teste02\",\r\n    \"password\": \"1234\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8080/api/v1/users/authenticate",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "v1",
+                "users",
+                "authenticate"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Author",
+      "item": [
+        {
+          "name": "Insert new Author",
+          "protocolProfileBehavior": {
+            "disabledSystemHeaders": {
+              "accept-encoding": true
+            }
+          },
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJwZWRyb3NpbWFvIiwiaWF0IjoxNzgzMjE1NDkzLCJleHAiOjE3ODMyMzM0OTN9.ZFQTsT0aC1Jvu9pYNiakMdf1k0HzNfPp2Quh_qt6fMzBrfYMo3AIIVXIcvylgVMb_sIPha4xskMOnkBInkXdhQ",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"name\": \"Freida McFadden\",\r\n    \"email\": \"freidamcfadden@gmail.com\",\r\n    \"age\": 46,\r\n    \"birthDate\": \"1980-05-01\", \r\n    \"literaryGenre\": \"Thriller\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8080/api/v1/authors",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "v1",
+                "authors"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Retrieve All Authors",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0ZTAyIiwiaWF0IjoxNzg1MTE3NDUyLCJleHAiOjE5MDUxMTc0NTJ9.iBS9QifflguL2nEdHt6aYA3YpAKHpfQKr2fbGkraW8Y",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8080/api/v1/authors",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "v1",
+                "authors"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Retrieve Author by Name",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const jsonData = pm.response.json();\r",
+                  "pm.environment.set(\"jwtToken\", jsonData.jwtToken);"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0ZTAyIiwiaWF0IjoxNzg1MTE3NDUyLCJleHAiOjE5MDUxMTc0NTJ9.iBS9QifflguL2nEdHt6aYA3YpAKHpfQKr2fbGkraW8Y",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:8080/api/v1/authors/orwell",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "v1",
+                "authors",
+                "orwell"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Author Data",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"name\": \"teste\",\r\n    \"email\": \"teste@example.com\",\r\n    \"age\": 90,\r\n    \"birthDate\": \"1859-05-22\",\r\n    \"literaryGenre\": \"Action\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8080/api/v1/authors/21",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "v1",
+                "authors",
+                "21"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Existing Author",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": ""
+            },
+            "url": {
+              "raw": "http://localhost:8080/api/v1/authors/21",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "v1",
+                "authors",
+                "21"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Book",
+      "item": [
+        {
+          "name": "Insert a new book",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"title\": \"A Seleção\",\r\n    \"isbn\": \"978-8565765015\", \r\n    \"pages\": 336,\r\n    \"releaseDate\": \"2012-09-17\",\r\n    \"authorId\": 1,\r\n    \"publisherId\": 2\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8080/api/v1/books",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "v1",
+                "books"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Retrieve all books",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0ZTAyIiwiaWF0IjoxNzg1Mzg0NjUyLCJleHAiOjE5MDUzODQ2NTJ9.bqzc_EtKU-ZtFJOHyONskj-pfMuSpLlIIzdE3exLZ0A",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": ""
+            },
+            "url": {
+              "raw": "http://localhost:8080/api/v1/books",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "v1",
+                "books"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Retrieve book by Title",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0ZTAyIiwiaWF0IjoxNzg1Mzg0NjUyLCJleHAiOjE5MDUzODQ2NTJ9.bqzc_EtKU-ZtFJOHyONskj-pfMuSpLlIIzdE3exLZ0A",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:8080/api/v1/books/empregada?Authori",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "v1",
+                "books",
+                "empregada"
+              ],
+              "query": [
+                {
+                  "key": "Authori",
+                  "value": null
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Book's Data",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"title\": \"A Elite\",\r\n    \"isbn\": \"978-8565765732\",\r\n    \"pages\": 360,\r\n    \"releaseDate\": \"2014-06-11\",\r\n    \"authorId\": 1,\r\n    \"publisherId\": 2\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8080/api/v1/books/2",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "v1",
+                "books",
+                "2"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Existing Book",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8080/api/v1/books/5",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "v1",
+                "books",
+                "5"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Retrieve books of an author",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0ZTAyIiwiaWF0IjoxNzg1Mzg0NjUyLCJleHAiOjE5MDUzODQ2NTJ9.bqzc_EtKU-ZtFJOHyONskj-pfMuSpLlIIzdE3exLZ0A",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:8080/api/v1/books/author/freida",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "v1",
+                "books",
+                "author",
+                "freida"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Retrieve books of a publisher",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0ZTAyIiwiaWF0IjoxNzg1MzgzODc1LCJleHAiOjE5MDUzODM4NzV9.1Jc2uzdrzZcIzLXDe-3_QLttnxiUfSOE7x_3j4FEYUk",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:8080/api/v1/books/publisher/editora",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "v1",
+                "books",
+                "publisher",
+                "editora"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Publisher",
+      "item": [
+        {
+          "name": "Insert new Publisher",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"name\": \"Teste\",\r\n    \"code\": \"009\",\r\n    \"description\": \"Editora Teste\",\r\n    \"foundationDate\": \"2026-07-12\" \r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8080/api/v1/publishers",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "v1",
+                "publishers"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Retrieve All Publishers",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0ZTAyIiwiaWF0IjoxNzg0OTA4MjIyLCJleHAiOjE5MDQ5MDgyMjJ9.SQjgK4N1HAJMMywPwFTAdsdfMy91d_8zTIsiacD__QQ",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "localhost:8080/api/v1/publishers",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "v1",
+                "publishers"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Retrieve Publisher by Name",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "localhost:8080/api/v1/publishers/harper",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "v1",
+                "publishers",
+                "harper"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete existing Publisher",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "localhost:8080/api/v1/publishers/8",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "v1",
+                "publishers",
+                "8"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
+}
