@@ -55,7 +55,10 @@ public class UserService {
 
     public List<UserDto> findAll() {
         var users = userRepository.findAll();
-        return users.stream().map(userMapper::convertToDto).sorted(Comparator.comparing(UserDto::getId)).toList();
+        return users.stream()
+                .map(userMapper::convertToDto)
+                .sorted(Comparator.comparing(UserDto::getId))
+                .toList();
     }
 
     public List<UserDto> findByUsername(String userName) {

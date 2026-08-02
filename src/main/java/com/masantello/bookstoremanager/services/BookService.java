@@ -60,7 +60,6 @@ public class BookService {
         book = bookRepository.save(book);
 
         return bookMapper.convertToResponseDto(book);
-
     }
 
     public List<BookResponseDto> findAll() {
@@ -106,7 +105,7 @@ public class BookService {
                 .toList();
     }
 
-    public List<BookResponseDto> findBookOfAPublisher(String publisherName) {
+    public List<BookResponseDto> findBooksOfAPublisher(String publisherName) {
         var books = bookRepository.findAllBooksByPublisher(publisherName);
 
         if (books.isEmpty()) {

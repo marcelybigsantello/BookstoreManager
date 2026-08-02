@@ -24,7 +24,7 @@ public enum Gender {
 
     public static String convertToDescription(Gender gender) {
         for (Gender gender1 : Gender.values()) {
-            if (gender1 != null && gender1.getDescription().equalsIgnoreCase(gender.getDescription())) {
+            if (gender != null && gender1.getDescription().equalsIgnoreCase(gender.getDescription())) {
                 return gender1.getDescription();
             }
         }

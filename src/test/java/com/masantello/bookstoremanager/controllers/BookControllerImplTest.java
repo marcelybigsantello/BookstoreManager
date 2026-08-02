@@ -2,7 +2,6 @@ package com.masantello.bookstoremanager.controllers;
 
 import com.masantello.bookstoremanager.dtos.*;
 import com.masantello.bookstoremanager.models.Author;
-import com.masantello.bookstoremanager.models.Book;
 import com.masantello.bookstoremanager.models.Publisher;
 import com.masantello.bookstoremanager.services.BookService;
 import jakarta.persistence.EntityNotFoundException;
@@ -10,7 +9,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.micrometer.observation.autoconfigure.ObservationProperties;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -155,7 +153,7 @@ public class BookControllerImplTest {
         bookResponseDto2.setPublisher(new PublisherResponseDto(1L, "Editora Companhia das Letras"));
         bookResponseDto2.setAuthor(new AuthorResponseDto("Kiera Cass", "Romance"));
         bookResponseDto2.setPages(354);
-        when(bookService.findBookOfAPublisher(publisherName)).thenReturn(List.of(bookResponseDto, bookResponseDto2));
+        when(bookService.findBooksOfAPublisher(publisherName)).thenReturn(List.of(bookResponseDto, bookResponseDto2));
 
         var response = bookController.findBooksOfPublisher(publisherName);
 
@@ -164,7 +162,7 @@ public class BookControllerImplTest {
         assertEquals(2, response.getBody().size());
         assertEquals("A Seleção", response.getBody().get(0).getTitle());
         assertEquals("A Elite", response.getBody().get(1).getTitle());
-        verify(bookService, times(1)).findBookOfAPublisher(publisherName);
+        verify(bookService, times(1)).findBooksOfAPublisher(publisherName);
     }
 
     @Test

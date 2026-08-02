@@ -362,6 +362,41 @@ public class AuthorServiceTest {
         verify(authorRepository, never()).delete(any());
     }
 
+    // ==================== FIND BY ID TESTS ====================
+    @Test
+    @DisplayName("findById - when author exists, should return the own Author")
+    void findById_whenAuthorExists_shouldReturnTheOwnAuthor() {
+        // Arrange
+        var authorId = 10L;
+        when(authorRepository.findById(authorId)).thenReturn(Optional.of(author));
+
+        // Act
+        var result = authorService.findById(authorId);
+
+        // Assert
+        assertNotNull(result);
+        assertEquals(result.getId(), authorDto.getId());
+        assertEquals(result.getName(), authorDto.getName());
+        assertEquals(result.getAge(), authorDto.getAge());
+        assertEquals(result.getBirthDate(), authorDto.getBirthDate());
+        assertEquals(result.getLiteraryGenre(), LiteraryGenre.findByDescription(authorDto.getLiteraryGenre()));
+
+        verify(authorRepository).findById(anyLong());
+    }
+
+    @Test
+    @DisplayName("findById - when author does not exist, should return the EntityNotFoundException")
+    void findById_whenAuthorDoesNotExist_shouldReturnEntityNotFoundException() {
+        // Arrange
+        var authorId = 10L;
+        when(authorRepository.findById(authorId)).thenReturn(Optional.empty());
+
+        // Act && Assert
+        var exception = assertThrows(EntityNotFoundException.class, () -> authorService.findById(authorId));
+        assertTrue(exception.getMessage().equalsIgnoreCase("Author ID={10} was not found in database."));
+        verify(authorRepository).findById(anyLong());
+    }
+
     // ==================== EDGE CASES TESTS ====================
 
     @Test

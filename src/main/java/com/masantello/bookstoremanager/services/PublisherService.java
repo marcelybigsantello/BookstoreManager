@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -48,7 +49,10 @@ public class PublisherService {
     public List<PublisherDto> findAll() {
         var publishers = publisherRepository.findAll();
 
-        return publishers.stream().map(publisherMapper::convertToDto).collect(Collectors.toList());
+        return publishers.stream()
+                .map(publisherMapper::convertToDto)
+                .sorted(Comparator.comparing(PublisherDto::getId))
+                .collect(Collectors.toList());
     }
 
     public List<PublisherDto> findByName(String publisherName) {

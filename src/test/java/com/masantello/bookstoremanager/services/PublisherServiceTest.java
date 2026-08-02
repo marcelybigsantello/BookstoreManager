@@ -261,6 +261,41 @@ public class PublisherServiceTest {
         verify(publisherRepository, never()).delete(any());
     }
 
+    // ==================== FIND BY ID TESTS ====================
+
+    @Test
+    @DisplayName("findById - if publisher exists, should return the Publisher")
+    void findById_whenPublisherExists_shouldReturnThePublisher() {
+        // Arrange
+        var publisherId = 5L;
+        when(publisherRepository.findById(publisherId)).thenReturn(Optional.of(publisher));
+
+        // Act
+        var result = publisherService.findById(publisherId);
+
+        // Assert
+        assertNotNull(result);
+        assertEquals(publisherDto.getId(), result.getId());
+        assertEquals(publisherDto.getName(), result.getName());
+        assertEquals(publisherDto.getCode(), result.getCode());
+        assertEquals(publisherDto.getDescription(), result.getDescription());
+
+        verify(publisherRepository, times(1)).findById(publisherId);
+    }
+
+    @Test
+    @DisplayName("findById - if publisher does not exist, should return EntityNotFoundException")
+    void findById_whenPublisherDoesNotExist_shouldReturnEntityNotFoundException() {
+        // Arrange
+        var publisherId = 100L;
+        when(publisherRepository.findById(publisherId)).thenReturn(Optional.empty());
+
+        // Act && Assert
+        var exception = assertThrows(EntityNotFoundException.class, () -> publisherService.findById(publisherId));
+        assertTrue(exception.getMessage().equalsIgnoreCase("Publisher ID={100} was not found in database."));
+        verify(publisherRepository, times(1)).findById(anyLong());
+    }
+
     // ==================== EDGE CASES TESTS ====================
 
     @Test
